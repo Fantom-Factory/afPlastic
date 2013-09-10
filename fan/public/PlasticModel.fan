@@ -66,12 +66,14 @@ class PlasticClassModel {
 	}
 
 	** All fields have public scope. Why not!? You're not compiling against it!
-	This addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null) {
-		if (isConst && !fieldType.isConst)
-			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
+	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
+		// FIXME: synthetic fields may be non-const
+//		if (isConst && !fieldType.isConst)
+//			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
 		
-		fields.add(PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody))
-		return this
+		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody, facets)
+		fields.add(fieldModel)
+		return fieldModel
 	}
 
 	** @since afIoc 1.4.2
@@ -102,7 +104,7 @@ class PlasticClassModel {
 		if (field.isPrivate || field.isInternal)
 			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
 		
-		fields.add(PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody))
+		fields.add(PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, Facet#.emptyList))
 		return this
 	}
 
@@ -132,7 +134,7 @@ class PlasticClassModel {
 	}
 }
 
-internal class PlasticFieldModel {
+class PlasticFieldModel {
 	Bool			 	isOverride
 	PlasticVisibility 	visibility
 	Bool				isConst
@@ -140,8 +142,9 @@ internal class PlasticFieldModel {
 	Str					name
 	Str? 				getBody
 	Str? 				setBody
+	Type[] 				facetTypes
 	
-	new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody) {
+	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody, Type[] facetTypes) {
 		this.isOverride	= isOverride
 		this.visibility = visibility
 		this.isConst	= isConst
@@ -149,12 +152,15 @@ internal class PlasticFieldModel {
 		this.name		= name
 		this.getBody	= getBody
 		this.setBody	= setBody
+		this.facetTypes	= facetTypes
 	}
-
+	
 	Str toFantomCode() {
+		field := ""
+		facetTypes.each { field += "	@${it.qname}\n" }
 		overrideKeyword	:= isOverride ? "override " : ""
 		constKeyword	:= isConst ? "const " : "" 
-		field :=
+		field +=
 		"	${overrideKeyword}${visibility.keyword}${constKeyword}${type.signature} ${name}"
 		if (getBody != null || setBody != null) {
 			field += " {\n"
@@ -169,7 +175,7 @@ internal class PlasticFieldModel {
 	}
 }
 
-internal class PlasticMethodModel {
+class PlasticMethodModel {
 	Bool			 	isOverride
 	PlasticVisibility 	visibility
 	Type				returnType
@@ -177,7 +183,7 @@ internal class PlasticMethodModel {
 	Str					signature
 	Str					body
 
-	new make(Bool isOverride, PlasticVisibility visibility, Type returnType, Str name, Str signature, Str body) {
+	internal new make(Bool isOverride, PlasticVisibility visibility, Type returnType, Str name, Str signature, Str body) {
 		this.isOverride	= isOverride
 		this.visibility = visibility
 		this.returnType	= returnType

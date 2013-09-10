@@ -3,11 +3,26 @@ using compiler
 
 const class PlasticPodCompiler {
 
+	** When generating code snippets to report compilation Errs, this is the number of lines of src 
+	** code the erroneous line should be padded with.  
+	public const  Int 	srcCodePadding		:= 5 
+	
 	** static because pods are shared throughout the JVM, not just the IoC 
 	private static const AtomicInt podIndex	:= AtomicInt(1)
-
-	// based on http://fantom.org/sidewalk/topic/2127#c13844
-	Pod compile(Str fantomPodCode, Str? podName := null) {
+	
+	new make(|This|? in := null) { in?.call(this) }
+	
+	** Compiles the given class model into a pod and returns the associated Fantom type.
+	Type compileModel(PlasticClassModel model) {
+		pod		:= compileCode(model.toFantomCode)
+		type	:= pod.type(model.className)
+		return type
+	}
+	
+	** Compiles the given Fantom code into a pod.
+	** 
+	** Based on `http://fantom.org/sidewalk/topic/2127#c13844`
+	Pod compileCode(Str fantomPodCode, Str? podName := null) {
 
 		podName = podName ?: generatePodName
 		
@@ -29,14 +44,15 @@ const class PlasticPodCompiler {
 
 		} catch (CompilerErr err) {
 			srcErrLoc := SrcErrLocation(`${podName}`, fantomPodCode, err.line, err.msg)
-			throw PlasticCompilationErr(srcErrLoc, 5)
+			throw PlasticCompilationErr(srcErrLoc, srcCodePadding)
 		}
 	}
 	
 	** Different pod names prevents "sys::Err: Duplicate pod name: <podName>".
 	** We internalise podName so we can guarantee no dup pod names
 	Str generatePodName() {
-		"${PlasticPodCompiler#.pod.name}Pod" + "$podIndex.getAndIncrement".padl(3, '0')
+		// TODO: rename to just 'Pod' when afIoc uses afPlastic
+		"${PlasticPodCompiler#.pod.name}AutoPod" + "$podIndex.getAndIncrement".padl(3, '0')
 	}
 }
 
