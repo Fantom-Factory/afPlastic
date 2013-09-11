@@ -53,10 +53,4 @@ internal class TestSrcErrLocation : PlasticTest {
 		verifyEq(srcy[4], " l 4")
 		verifyEq(srcy[5], "l 5")
 	}
-	
-	Void test() {
-		scs:=SrcCodeSnippet(`dude`, "1\n2\n3\n4")
-		pce:=PlasticCompilationErr(scs, 1, "pow", 2)
-		Env.cur.err.printLine(pce.toStr)
-	}
 }

@@ -12,9 +12,10 @@ const class PlasticCompilationErr : PlasticErr, SrcCodeErr {
 
 	internal new make(SrcCodeSnippet srcCode, Int errLineNo, Str errMsg, Int linesOfPadding) : super(errMsg) {
 		this.srcCode = srcCode
+		this.errLineNo = errLineNo
 		this.linesOfPadding = linesOfPadding
 	}
-	
+
 	override Str toStr() {
 		print(msg, linesOfPadding)
 	}
