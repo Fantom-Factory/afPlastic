@@ -1,3 +1,28 @@
 Overview [#overview]
 ********************
+'afPlastic' is a library for dynamically generating and compiling Fantom code.
+
+
+
+Quick Start [#quickStart]
+*************************
+pre>
+  model := PlasticClassModel("MyClass", true)
+
+  model.addMethod(Str#, "greet", "Str name", """ "Hello \${name}!" """)
+
+  myClass := PlasticCompiler().compileModel(model)
+
+  myClass.make->greet("Mum") // --> Hello Mum!
+<pre
+
+
+
+Release Notes [#releaseNotes]
+*****************************
+
+v1.0.0 [#v1.0.0]
+----------------
+ - New: Initial release.
+ - Chg: afPlastic code was jail breaked from [afIoc]`http://repo.status302.com/doc/afIoc/#overview` and updated for use by [afEfan]`http://repo.status302.com/doc/afEfan/#overview`
 

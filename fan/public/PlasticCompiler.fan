@@ -1,7 +1,8 @@
 using concurrent::AtomicInt
 using compiler
 
-const class PlasticPodCompiler {
+** Compiles Fantom source code and afPlastic models into usable Fantom code.
+const class PlasticCompiler {
 
 	** When generating code snippets to report compilation Errs, this is the number of lines of src 
 	** code the erroneous line should be padded with.  
@@ -10,6 +11,7 @@ const class PlasticPodCompiler {
 	** static because pods are shared throughout the JVM, not just the IoC 
 	private static const AtomicInt podIndex	:= AtomicInt(1)
 	
+	** Creates a 'PlasticCompiler'.
 	new make(|This|? in := null) { in?.call(this) }
 	
 	** Compiles the given class model into a pod and returns the associated Fantom type.
@@ -19,9 +21,8 @@ const class PlasticPodCompiler {
 		return type
 	}
 	
-	** Compiles the given Fantom code into a pod.
-	** 
-	** Based on `http://fantom.org/sidewalk/topic/2127#c13844`
+	** Compiles the given Fantom code into a pod. 
+	** If no pod name is given, a unique one will be generated.
 	Pod compileCode(Str fantomPodCode, Str? podName := null) {
 
 		podName = podName ?: generatePodName
@@ -49,10 +50,9 @@ const class PlasticPodCompiler {
 	}
 	
 	** Different pod names prevents "sys::Err: Duplicate pod name: <podName>".
-	** We internalise podName so we can guarantee no dup pod names
+	** We internalise podName so we can guarantee no duplicate pod names
 	Str generatePodName() {
-		// TODO: rename to just 'Pod' when afIoc uses afPlastic
-		"${PlasticPodCompiler#.pod.name}AutoPod" + "$podIndex.getAndIncrement".padl(3, '0')
+		"afPlasticPod" + podIndex.getAndIncrement.toStr.padl(3, '0')
 	}
 }
 

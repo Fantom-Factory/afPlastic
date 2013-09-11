@@ -1,20 +1,33 @@
 
+** Generates snippets of source code centred on an error line.
+**// SrcCodeErr
 const class SrcErrLocation {
-	const Uri	srcLocation
+	
+	** An arbitrary uri of where the source code originated from. 
+	const Uri	srcCodeLocation
+	
+	** A list of source code lines.
 	const Str[]	srcCode
+	
+	** The line number in the source code where the error occurred. 
 	const Int 	errLineNo
+	
+	** The error message.
 	const Str 	errMsg
 
-	new make(Uri srcLocation, Str srcCode, Int errLineNo, Str errMsg) {
-		this.srcLocation	= srcLocation
+	** Creates a SrcErrLocation.
+	new make(Uri srcCodeLocation, Str srcCode, Int errLineNo, Str errMsg) {
+		this.srcCodeLocation= srcCodeLocation
 		this.srcCode		= srcCode.splitLines
 		this.errLineNo		= errLineNo
 		this.errMsg			= errMsg
 	}
 
+	** Returns a snippet of source code, centred on `errLineNo` and padded on either side by an 
+	** extra 'noOfLinesOfPadding' lines.
 	Str srcCodeSnippet(Int noOfLinesOfPadding := 5) {
 		buf := StrBuf()
-		buf.add("  ${srcLocation}").add(" : Line ${errLineNo}\n")
+		buf.add("  ${srcCodeLocation}").add(" : Line ${errLineNo}\n")
 		buf.add("    - ${errMsg}\n\n")
 		
 		srcCodeSnippetMap(noOfLinesOfPadding).each |src, lineNo| {
@@ -24,7 +37,9 @@ const class SrcErrLocation {
 		
 		return buf.toStr
 	}
-	
+
+	** Returns a map of line numbers to source code, centred on `errLineNo` and padded on either 
+	** side by an extra 'noOfLinesOfPadding' lines.
 	Int:Str srcCodeSnippetMap(Int noOfLinesOfPadding := 5) {
 		min := (errLineNo - 1 - noOfLinesOfPadding).max(0)	// -1 so "Line 1" == src[0]
 		max := (errLineNo - 1 + noOfLinesOfPadding + 1).min(srcCode.size)
@@ -46,6 +61,7 @@ const class SrcErrLocation {
 		lines.each |val, key| { lines[key] = val[1..-1]  }
 	}
 	
+	** Returns `srcCodeSnippet`
 	override Str toStr() {
 		srcCodeSnippet
 	}
