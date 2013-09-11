@@ -145,7 +145,7 @@ class PlasticClassModel {
 		usingTypes.unique.each { code += "using ${it.qname}\n" }
 		code += "\n"
 		constKeyword 	:= isConst ? "const " : ""
-		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.exclude { it == Obj#}.map { it.qname }.join(",") 
+		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
 		code += "${constKeyword}class ${className}${extendsKeyword} {\n\n"
 		fields.each { code += it.toFantomCode }
@@ -228,8 +228,12 @@ class PlasticMethodModel {
 		overrideKeyword	:= isOverride ? "override " : ""
 		return
 		"	${overrideKeyword}${visibility.keyword}${returnType.signature} ${name}(${signature}) {
-		 		${body}
+		 		${indentBody}
 		 	}\n"
+	}
+	
+	private Str indentBody() {
+		body.splitLines.join("\n\t\t")
 	}
 }
 
