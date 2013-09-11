@@ -87,7 +87,7 @@ class PlasticClassModel {
 	** Add a field.
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
 	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
-		// FIXME: synthetic fields may be non-const
+		// synthetic fields may be non-const - how do we check if field is synthetic?
 //		if (isConst && !fieldType.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
 
