@@ -15,13 +15,13 @@ internal class TestPlasticModel : PlasticTest {
 		}
 	}
 
-	Void testFieldsForConstTypeMustByConst() {
-		plasticModel := PlasticClassModel("TestImpl", true)
-		plasticModel.extendMixin(T_PlasticService01#)
-		verifyErrMsg(PlasticMsgs.constTypesMustHaveConstFields("TestImpl", T_PlasticService02#, "wotever")) {
-			plasticModel.addField(T_PlasticService02#, "wotever")
-		}
-	}
+//	Void testFieldsForConstTypeMustByConst() {
+//		plasticModel := PlasticClassModel("TestImpl", true)
+//		plasticModel.extendMixin(T_PlasticService01#)
+//		verifyErrMsg(PlasticMsgs.constTypesMustHaveConstFields("TestImpl", T_PlasticService02#, "wotever")) {
+//			plasticModel.addField(T_PlasticService02#, "wotever")
+//		}
+//	}
 
 	Void testOverrideMethodsMustBelongToSuperType() {
 		plasticModel := PlasticClassModel("TestImpl", true)

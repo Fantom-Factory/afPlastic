@@ -44,15 +44,20 @@ const class PlasticCompiler {
 			return pod
 
 		} catch (CompilerErr err) {
-			srcErrLoc := SrcErrLocation(`${podName}`, fantomPodCode, err.line, err.msg)
-			throw PlasticCompilationErr(srcErrLoc, srcCodePadding)
+			srcCode := SrcCodeSnippet(`${podName}`, fantomPodCode)
+			throw PlasticCompilationErr(srcCode, err.line, err.msg, srcCodePadding)
 		}
 	}
 	
 	** Different pod names prevents "sys::Err: Duplicate pod name: <podName>".
 	** We internalise podName so we can guarantee no duplicate pod names
 	Str generatePodName() {
-		"afPlasticPod" + podIndex.getAndIncrement.toStr.padl(3, '0')
+		index := podIndex.getAndIncrement.toStr.padl(3, '0')
+		
+		// TODO: afIoc used afPlasticPod!!!
+//		return "afPlasticPod${index}"
+		
+		return "afPlastic${index}"
 	}
 }
 

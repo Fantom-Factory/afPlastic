@@ -27,9 +27,9 @@ internal const class PlasticMsgs {
 		"Super types must be 'public' or 'protected' scope - class ${typeName} : ${superType.qname}"
 	}
 
-	static Str constTypesMustHaveConstFields(Str typeName, Type fieldType, Str fieldName) {
-		"Const type ${typeName} must ONLY declare const fields - ${fieldType.qname} ${fieldName}"
-	}
+//	static Str constTypesMustHaveConstFields(Str typeName, Type fieldType, Str fieldName) {
+//		"Const type ${typeName} must ONLY declare const fields - ${fieldType.qname} ${fieldName}"
+//	}
 
 	static Str overrideMethodDoesNotBelongToSuperType(Method method, Type[] superTypes) {
 		"Method ${method.qname} does not belong to super types " + superTypes.map { it.qname }.join(", ")
