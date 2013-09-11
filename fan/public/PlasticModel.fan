@@ -1,12 +1,23 @@
 
+** Models a Fantom class.
+** 
 ** All types are generated with a standard serialisation ctor:
 ** 
 **   new make(|This|? f := null) { f?.call(this) }
 ** 
+** All added fields and methods will be public. As you will never compile against the generated 
+** code, this should not be problematic. 
 class PlasticClassModel {
+		** Set to 'true' if this class is 'const'
 		const Bool 					isConst
+	
+		** The name of the class.
 		const Str 					className
+		
+		** The superclass type.
 			Type					superClass	:= Obj#		{ private set }
+	
+		** A list of mixin types the model extends. 
 			Type[]					mixins		:= [,]		{ private set }	// for user info only
 
 	private Pod[] 					usingPods	:= [,]
@@ -15,7 +26,7 @@ class PlasticClassModel {
 	private PlasticFieldModel[]		fields		:= [,]
 	private PlasticMethodModel[]	methods		:= [,]
 
-	** I feel you should know upfront if you want the class to be const or not
+	** Creates a class model with the given name. 
 	new make(Str className, Bool isConst) {
 		this.isConst 	= isConst
 		this.className	= className
@@ -23,16 +34,22 @@ class PlasticClassModel {
 		extends.add(superClass)
 	}
 
+	** 'use' the given pod.
 	This usingPod(Pod pod) {
 		usingPods.add(pod)
 		return this
 	}
 
+	** 'use' the given type.
 	This usingType(Type type) {
 		usingTypes.add(type)
 		return this
 	}
 
+	** Sets the given type as the superclass. 
+	** If this model is const, then the given type must be const also.
+	** This method may only be called once.
+	** The superclass must be an acutal 'class' (not a mixin) and be public.  
 	This extendClass(Type classType) {
 		if (isConst && !classType.isConst)
 			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, classType))
@@ -50,6 +67,8 @@ class PlasticClassModel {
 		return this	
 	}
 
+	** Extend the given mixin. 
+	** The mixin must be public.  
 	This extendMixin(Type mixinType) {
 		if (isConst && !mixinType.isConst)
 			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, mixinType))
@@ -65,24 +84,42 @@ class PlasticClassModel {
 		return this
 	}
 
-	** All fields have public scope. Why not!? You're not compiling against it!
+	** Add a field.
+	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
 	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
 		// FIXME: synthetic fields may be non-const
 //		if (isConst && !fieldType.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
-		
+
 		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody, facets)
 		fields.add(fieldModel)
 		return fieldModel
 	}
 
-	** @since afIoc 1.4.2
+	** Override a field. 
+	** The given field must exist in a super class / mixin.
+	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
+	This overrideField(Field field, Str? getBody := null, Str? setBody := null) {
+		if (!extends.any { it.fits(field.parent) })
+			throw PlasticErr(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(field, extends))
+		if (field.isPrivate || field.isInternal)
+			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
+		
+		fields.add(PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, Facet#.emptyList))
+		return this
+	}
+
+	** Add a method.
+	** 'signature' does not include (brackets).
+	** 'body' does not include {braces}
 	This addMethod(Type returnType, Str methodName, Str signature, Str body) {
 		methods.add(PlasticMethodModel(false, PlasticVisibility.visPublic, returnType, methodName, signature, body))
 		return this
 	}
 
-	** All methods are given public scope. 
+	** Add a method.
+	** The given method must exist in a super class / mixin.
+	** 'body' does not include {braces}
 	This overrideMethod(Method method, Str body) {
 		if (!extends.any { it.fits(method.parent) })
 			throw PlasticErr(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(method, extends))
@@ -97,17 +134,8 @@ class PlasticClassModel {
 		return this
 	}
 
-	** All fields are given public scope. 
-	This overrideField(Field field, Str? getBody := null, Str? setBody := null) {
-		if (!extends.any { it.fits(field.parent) })
-			throw PlasticErr(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(field, extends))
-		if (field.isPrivate || field.isInternal)
-			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
-		
-		fields.add(PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, Facet#.emptyList))
-		return this
-	}
-
+	** Converts the model into Fantom source code.
+	** 
 	** All types are generated with a standard serialisation ctor:
 	** 
 	**   new make(|This|? f := null) { f?.call(this) }
@@ -134,6 +162,7 @@ class PlasticClassModel {
 	}
 }
 
+** Models a Fantom field.
 class PlasticFieldModel {
 	Bool			 	isOverride
 	PlasticVisibility 	visibility
@@ -155,6 +184,7 @@ class PlasticFieldModel {
 		this.facetTypes	= facetTypes
 	}
 	
+	** Converts the model into Fantom source code.
 	Str toFantomCode() {
 		field := ""
 		facetTypes.each { field += "	@${it.qname}\n" }
@@ -175,6 +205,7 @@ class PlasticFieldModel {
 	}
 }
 
+** Models a Fantom method.
 class PlasticMethodModel {
 	Bool			 	isOverride
 	PlasticVisibility 	visibility
@@ -192,6 +223,7 @@ class PlasticMethodModel {
 		this.body		= body
 	}
 	
+	** Converts the model into Fantom source code.
 	Str toFantomCode() {
 		overrideKeyword	:= isOverride ? "override " : ""
 		return
@@ -201,18 +233,25 @@ class PlasticMethodModel {
 	}
 }
 
+** A list of Fantom visibilities.
 enum class PlasticVisibility {
+	** Private scope.
 	visPrivate	("private "),
+	** Internal scope.
 	visInternal	("internal "),
+	** Protected scope.
 	visProtected("protected "),
+	** Public scope.
 	visPublic	("");
 	
+	** The keyword to be used in Fantom source code. 
 	const Str keyword
 	
 	private new make(Str keyword) {
 		this.keyword = keyword
 	}
-	
+
+	** Returns the visibility of the given field / method.
 	static PlasticVisibility fromSlot(Slot slot) {
 		if (slot.isPrivate)
 			return visPrivate

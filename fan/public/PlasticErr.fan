@@ -1,8 +1,10 @@
 
+** As throw by afPlastic.
 const class PlasticErr : Err {
 	new make(Str msg, Err? cause := null) : super(msg, cause) {}
 }
 
+** As throw by `PlasticCompiler` should Fantom code compilation fail.
 const class PlasticCompilationErr : PlasticErr {
 	const SrcErrLocation srcErrLoc
 	const Int noOfLinesOfPadding

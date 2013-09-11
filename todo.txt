@@ -1,3 +1,16 @@
 
-For 1.0.0
-=========
+For v1.0.0
+==========
+Have a toSrcCodeLoc mixin for Errs
+ - use by BedsheetMoustache && Efan
+ - make BedSheet use it generically
+ - remove err printing from BedsheetMoustache && BedSheetEfan
+
+
+For Future
+==========
+
+model mixins
+useType should take 'as TypeB'
+check field types and method return types are public
+ 
