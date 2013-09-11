@@ -23,7 +23,7 @@ const class SrcCodeSnippet {
 			buf.add("    - ${msg}\n")
 		buf.add("\n")
 		
-		srcCodeSnippetMap(linesOfPadding).each |src, line| {
+		srcCodeSnippetMap(lineNo, linesOfPadding).each |src, line| {
 			pointer := (line == lineNo) ? "==>" : "   "
 			buf.add("${pointer}${line.toStr.justr(3)}: ${src}\n".replace("\t", "    "))
 		}
