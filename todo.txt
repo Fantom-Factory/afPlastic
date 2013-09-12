@@ -1,16 +1,19 @@
 
-For v1.0.0
+For v1.0.2
 ==========
-Have a toSrcCodeLoc mixin for Errs
- - use by BedsheetMoustache && Efan
- - make BedSheet use it generically
- - remove err printing from BedsheetMoustache && BedSheetEfan
+useType should take 'as TypeB'
+better facet handling for fields
+facet handling for classes and methods 
 
 
 For Future
 ==========
-
 model mixins
-useType should take 'as TypeB'
-check field types and method return types are public
- 
+compile multiple models into one pod
+
+
+Naa - Bad Ideas
+===============
+
+check field types and method return types are public 
+ - actually don't, they may be internal to the pod, and we're repeating work of the Fantom compiler

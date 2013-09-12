@@ -7,12 +7,10 @@ afPlastic is a [Fantom](http://fantom.org/) library for dynamically generating a
 ## Quick Start
 
     model := PlasticClassModel("MyClass", true)
-
-    model.addMethod(Str#, "hello", "Str name", """ "Hello \${name}!" """)
+    model.addMethod(Str#, "greet", "Str name", """ "Hello \${name}!" """)
 
     myClass := PlasticCompiler().compileModel(model)
-
-    myClass.make->hello("Mum") // --> Hello Mum!
+    myClass.make->greet("Mum") // --> Hello Mum!
 
 
 
