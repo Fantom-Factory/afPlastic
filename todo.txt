@@ -11,6 +11,10 @@ For Future
 model mixins
 compile multiple models into one pod
 
+Plastic to override methods with default values
+ - see compilerDoc::ApiDocParser.parseMethod() 
+
+
 
 Naa - Bad Ideas
 ===============
