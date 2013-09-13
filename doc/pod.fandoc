@@ -21,6 +21,10 @@ pre>
 Release Notes [#releaseNotes]
 *****************************
 
+v1.0.2 [#v1.0.2]
+----------------
+ - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
+
 v1.0.0 [#v1.0.0]
 ----------------
  - New: Initial release.

@@ -34,7 +34,7 @@ const mixin SrcCodeErr {
 		buf := StrBuf()
 		buf.add("${typeof.qname}: ${msg}\n")
 		buf.add("\n${typeof.name.toDisplayName}:\n")
-		buf.add(srcCode.srcCodeSnippet(linesOfPadding, msg, linesOfPadding))
+		buf.add(srcCode.srcCodeSnippet(errLineNo, msg, linesOfPadding))
 		buf.add("\nStack Trace:")
 		return buf.toStr
 	}	
