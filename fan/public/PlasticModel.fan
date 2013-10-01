@@ -198,9 +198,9 @@ class PlasticFieldModel {
 				field += "		get { ${getBody} }\n"
 			if (setBody != null)
 				field += "		set { ${setBody} }\n"
-			field += "	}\n"
+			field += "	}"
 		}
-		field += "\n"
+		field += "\n\n"
 		return field
 	}
 }
