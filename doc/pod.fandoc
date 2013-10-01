@@ -23,6 +23,7 @@ Release Notes [#releaseNotes]
 
 v1.0.2 [#v1.0.2]
 ----------------
+ - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
 
 v1.0.0 [#v1.0.0]

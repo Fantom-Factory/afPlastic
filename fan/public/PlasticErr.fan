@@ -29,6 +29,9 @@ const mixin SrcCodeErr {
 	
 	** The line number in the source code where the error occurred. 
 	abstract Int errLineNo()
+	
+	** The err msg
+	abstract Str msg()
 
 	Str print(Str msg, Int linesOfPadding) {
 		buf := StrBuf()
