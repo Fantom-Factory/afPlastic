@@ -10,6 +10,18 @@ pre>
   model := PlasticClassModel("MyClass", true)
   model.addMethod(Str#, "greet", "Str name", """ "Hello \${name}!" """)
 
+  model.toFantomCode // -->
+
+  // const class MyClass {
+  //   new make(|This|? f := null) {
+  //     f?.call(this)
+  //   }
+  //
+  //   sys::Str greet(Str name) {
+  //      "Hello ${name}!"
+  //   }
+  // }
+
   myType := PlasticCompiler().compileModel(model)
   myType.make->greet("Mum")
 
