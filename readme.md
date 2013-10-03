@@ -9,6 +9,18 @@ afPlastic is a [Fantom](http://fantom.org/) library for dynamically generating a
     model := PlasticClassModel("MyClass", true)
     model.addMethod(Str#, "greet", "Str name", """ "Hello \${name}!" """)
 
+    model.toFantomCode // -->
+
+    // const class MyClass {
+    //   new make(|This|? f := null) {
+    //     f?.call(this)
+    //   }
+    //
+    //   sys::Str greet(Str name) {
+    //      "Hello ${name}!"
+    //   }
+    // }
+  
     myClass := PlasticCompiler().compileModel(model)
     myClass.make->greet("Mum") // --> Hello Mum!
 
