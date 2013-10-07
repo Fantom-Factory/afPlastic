@@ -4,13 +4,20 @@ using compiler
 ** Compiles Fantom source code and afPlastic models into usable Fantom code.
 const class PlasticCompiler {
 
-	** When generating code snippets to report compilation Errs, this is the number of lines of src 
-	** code the erroneous line should be padded with.  
-	public const  Int 	srcCodePadding		:= 5 
-	
 	** static because pods are shared throughout the JVM, not just the IoC 
 	private static const AtomicInt podIndex	:= AtomicInt(1)
+
+	** When generating code snippets to report compilation Errs, this is the number of lines of src 
+	** code the erroneous line should be padded with. 
+	** 
+	** Value is mutable. Defaults to '5'.  
+	public Int 	srcCodePadding {
+		get { _srcCodePadding.val }
+		set { _srcCodePadding.val = it }
+	}
 	
+	private const AtomicInt _srcCodePadding	:= AtomicInt(5)
+		
 	** Creates a 'PlasticCompiler'.
 	new make(|This|? in := null) { in?.call(this) }
 	
