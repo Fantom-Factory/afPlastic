@@ -37,6 +37,7 @@ Release Notes [#releaseNotes]
 v1.0.2 [#v1.0.2]
 ----------------
  - New: Updates to ensure backwards compatibility with [afIoc]`http://repo.status302.com/doc/afIoc/#overview`.
+ - Chg: Made 'PlasticCompiler.srcCodePadding' mutable so it may be (re)set by 'afBedSheet'.
  - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
 
