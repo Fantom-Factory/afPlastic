@@ -1,7 +1,8 @@
 Overview [#overview]
 ********************
-'afPlastic' is a library for dynamically generating and compiling Fantom code.
-
+'afPlastic' is a library for dynamically generating and compiling Fantom code. It is the cornerstone of
+[afIoc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
+[Embedded Fantom (efan)]`http://repo.status302.com/doc/afEfan/#overview` templates.
 
 
 Quick Start [#quickStart]
@@ -35,11 +36,12 @@ Release Notes [#releaseNotes]
 
 v1.0.2 [#v1.0.2]
 ----------------
+ - New: Updates to ensure backwards compatibility with [afIoc]`http://repo.status302.com/doc/afIoc/#overview`.
  - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
 
 v1.0.0 [#v1.0.0]
 ----------------
  - New: Initial release.
- - Chg: afPlastic code was jail breaked from [afIoc]`http://repo.status302.com/doc/afIoc/#overview` and updated for use by [afEfan]`http://repo.status302.com/doc/afEfan/#overview`
+ - Chg: 'afPlastic' was jail breaked from [afIoc]`http://repo.status302.com/doc/afIoc/#overview` and updated for use by [afEfan]`http://repo.status302.com/doc/afEfan/#overview`
 
