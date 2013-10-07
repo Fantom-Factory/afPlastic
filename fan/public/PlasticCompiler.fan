@@ -15,8 +15,10 @@ const class PlasticCompiler {
 	new make(|This|? in := null) { in?.call(this) }
 	
 	** Compiles the given class model into a pod and returns the associated Fantom type.
-	Type compileModel(PlasticClassModel model) {
-		pod		:= compileCode(model.toFantomCode)
+	** If no pod name is given, a unique one will be generated.
+	Type compileModel(PlasticClassModel model, Str? podName := null) {
+		podName = podName ?: generatePodName
+		pod		:= compileCode(model.toFantomCode, podName)
 		type	:= pod.type(model.className)
 		return type
 	}
@@ -24,7 +26,6 @@ const class PlasticCompiler {
 	** Compiles the given Fantom code into a pod. 
 	** If no pod name is given, a unique one will be generated.
 	Pod compileCode(Str fantomPodCode, Str? podName := null) {
-
 		podName = podName ?: generatePodName
 		
 		try {
