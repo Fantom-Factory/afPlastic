@@ -1,0 +1,44 @@
+
+** Models a Fantom field.
+class PlasticFieldModel {
+	Bool			 	isOverride
+	PlasticVisibility 	visibility
+	Bool				isConst
+	Type				type
+	Str					name
+	Str? 				getBody
+	Str? 				setBody
+	Type[] 				facetTypes
+	
+	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody, Type[] facetTypes) {
+		this.isOverride	= isOverride
+		this.visibility = visibility
+		this.isConst	= isConst
+		this.type		= type
+		this.name		= name
+		this.getBody	= getBody
+		this.setBody	= setBody
+		this.facetTypes	= facetTypes
+	}
+	
+	** Converts the model into Fantom source code.
+	Str toFantomCode() {
+		field := ""
+		facetTypes.each { field += "	@${it.qname}\n" }
+		overrideKeyword	:= isOverride ? "override " : ""
+		constKeyword	:= isConst ? "const " : "" 
+		field +=
+		"	${overrideKeyword}${visibility.keyword}${constKeyword}${type.signature} ${name}"
+		if (getBody != null || setBody != null) {
+			field += " {\n"
+			if (getBody != null)
+				field += "		get { ${getBody} }\n"
+			if (setBody != null)
+				field += "		set { ${setBody} }\n"
+			field += "	}"
+		}
+		field += "\n\n"
+		return field
+	}
+}
+

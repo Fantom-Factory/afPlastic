@@ -25,6 +25,7 @@ class PlasticClassModel {
 	private Type[] 					extends		:= [,]
 	private PlasticFieldModel[]		fields		:= [,]
 	private PlasticMethodModel[]	methods		:= [,]
+	private PlasticCtorModel[]		ctors		:= [,]
 
 	** Creates a class model with the given name. 
 	new make(Str className, Bool isConst) {
@@ -32,6 +33,7 @@ class PlasticClassModel {
 		this.className	= className
 		
 		extends.add(superClass)
+		addCtor("make", "|This|? f := null", "f?.call(this)")
 	}
 
 	** 'use' the given pod.
@@ -134,6 +136,14 @@ class PlasticClassModel {
 		return this
 	}
 
+	** Add a ctor.
+	** 'signature' does not include (brackets).
+	** 'body' does not include {braces}
+	This addCtor(Str ctorName, Str signature, Str body) {
+		ctors.add(PlasticCtorModel(PlasticVisibility.visPublic, ctorName, signature, body))
+		return this
+	}
+	
 	** Converts the model into Fantom source code.
 	** 
 	** All types are generated with a standard serialisation ctor:
@@ -148,123 +158,10 @@ class PlasticClassModel {
 		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
 		code += "${constKeyword}class ${className}${extendsKeyword} {\n\n"
-		fields.each { code += it.toFantomCode }
-		
-		code += "\n"
-		code += "	new make(|This|? f := null) {
-		         		f?.call(this)
-		         	}\n"
-		code += "\n"
-
-		methods.each { code += it.toFantomCode }
+			fields	.each { code += it.toFantomCode }
+			ctors	.each { code += it.toFantomCode }
+			methods	.each { code += it.toFantomCode }
 		code += "}\n"
 		return code
-	}
-}
-
-** Models a Fantom field.
-class PlasticFieldModel {
-	Bool			 	isOverride
-	PlasticVisibility 	visibility
-	Bool				isConst
-	Type				type
-	Str					name
-	Str? 				getBody
-	Str? 				setBody
-	Type[] 				facetTypes
-	
-	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody, Type[] facetTypes) {
-		this.isOverride	= isOverride
-		this.visibility = visibility
-		this.isConst	= isConst
-		this.type		= type
-		this.name		= name
-		this.getBody	= getBody
-		this.setBody	= setBody
-		this.facetTypes	= facetTypes
-	}
-	
-	** Converts the model into Fantom source code.
-	Str toFantomCode() {
-		field := ""
-		facetTypes.each { field += "	@${it.qname}\n" }
-		overrideKeyword	:= isOverride ? "override " : ""
-		constKeyword	:= isConst ? "const " : "" 
-		field +=
-		"	${overrideKeyword}${visibility.keyword}${constKeyword}${type.signature} ${name}"
-		if (getBody != null || setBody != null) {
-			field += " {\n"
-			if (getBody != null)
-				field += "		get { ${getBody} }\n"
-			if (setBody != null)
-				field += "		set { ${setBody} }\n"
-			field += "	}"
-		}
-		field += "\n\n"
-		return field
-	}
-}
-
-** Models a Fantom method.
-class PlasticMethodModel {
-	Bool			 	isOverride
-	PlasticVisibility 	visibility
-	Type				returnType
-	Str					name
-	Str					signature
-	Str					body
-
-	internal new make(Bool isOverride, PlasticVisibility visibility, Type returnType, Str name, Str signature, Str body) {
-		this.isOverride	= isOverride
-		this.visibility = visibility
-		this.returnType	= returnType
-		this.name		= name
-		this.signature	= signature
-		this.body		= body
-	}
-	
-	** Converts the model into Fantom source code.
-	Str toFantomCode() {
-		overrideKeyword	:= isOverride ? "override " : ""
-		return
-		"	${overrideKeyword}${visibility.keyword}${returnType.signature} ${name}(${signature}) {
-		 		${indentBody}
-		 	}\n"
-	}
-	
-	private Str indentBody() {
-		body.splitLines.join("\n\t\t")
-	}
-}
-
-** A list of Fantom visibilities.
-enum class PlasticVisibility {
-	** Private scope.
-	visPrivate	("private "),
-	** Internal scope.
-	visInternal	("internal "),
-	** Protected scope.
-	visProtected("protected "),
-	** Public scope.
-	visPublic	("");
-	
-	** The keyword to be used in Fantom source code. 
-	const Str keyword
-	
-	private new make(Str keyword) {
-		this.keyword = keyword
-	}
-
-	** Returns the visibility of the given field / method.
-	static PlasticVisibility fromSlot(Slot slot) {
-		if (slot.isPrivate)
-			return visPrivate
-		if (slot.isInternal)
-			return visInternal
-		if (slot.isProtected)
-			return visProtected
-		if (slot.isPublic)
-			return visPublic
-		throw Err("What visibility is ${slot.signature}???")
 	}
 }
