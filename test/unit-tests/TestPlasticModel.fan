@@ -15,6 +15,7 @@ internal class TestPlasticModel : PlasticTest {
 		}
 	}
 
+// const fields need not be const if they're synthetic
 //	Void testFieldsForConstTypeMustByConst() {
 //		plasticModel := PlasticClassModel("TestImpl", true)
 //		plasticModel.extendMixin(T_PlasticService01#)
