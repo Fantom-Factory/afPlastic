@@ -6,7 +6,6 @@ internal class TestCtor : PlasticTest {
 		model.addField(Str#, "judge")
 		model.addCtor("makeWithJudge", "Str judge", "this.judge = judge")
 		
-		Env.cur.err.printLine(model.toFantomCode)
 		myClass	:= PlasticCompiler().compileModel(model)
 		
 		// --> Hello Mum!

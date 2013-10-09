@@ -40,3 +40,6 @@ Or install via fanr:
 
     $ fanr install -r http://repo.status302.com/fanr/ afPlastic
 
+To use in a project, add a dependency in your `build.fan`:
+
+    depends = ["sys 1.0", ..., "afPlastic 1.0+"]
