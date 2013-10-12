@@ -6,7 +6,7 @@ internal class TestDocExample : PlasticTest {
 		model.addMethod(Str#, "greet", "Str name", """ "Hello \${name}!" """)
 		
 		myClass	:= PlasticCompiler().compileModel(model)
-		
+
 		// --> Hello Mum!
 		mum	:= myClass.make->greet("Mum")
 		verifyEq(mum, "Hello Mum!")

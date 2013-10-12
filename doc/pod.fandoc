@@ -1,6 +1,9 @@
 Overview [#overview]
 ********************
-(Internal) 'afPlastic' is a library for dynamically generating and compiling Fantom code.
+
+*afPlastic is for internal Alien-Factory use only. Do not expect documenation or support!*
+
+'afPlastic' is a library for dynamically generating and compiling Fantom code.
 
 'afPlastic' is the cornerstone of
 [afIoc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
@@ -38,6 +41,8 @@ Release Notes [#releaseNotes]
 v1.0.4 [#v1.0.4]
 ----------------
  - Bug: Fields can not be const if they have a getter.
+ - Chg: the 'PlasticClassModel' add methods now return sub-model classes.
+ - Chg: Fantom compilation is silent to reduce noise on std out. We raise afPlastic Errs in event of a compilation failure.
 
 v1.0.2 [#v1.0.2]
 ----------------
