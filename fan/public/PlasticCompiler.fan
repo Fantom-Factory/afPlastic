@@ -40,7 +40,7 @@ const class PlasticCompiler {
 			input.podName 	= podName
 	 		input.summary 	= "Alien-Factory Transient Pod"
 			input.version 	= Version.defVal
-			input.log.level = LogLevel.warn
+			input.log.level = LogLevel.silent	// we'll raise our own Errs - less noise to std.out
 			input.isScript 	= true
 			input.output 	= CompilerOutputMode.transientPod
 			input.mode 		= CompilerInputMode.str
