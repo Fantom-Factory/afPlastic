@@ -26,7 +26,8 @@ class PlasticFieldModel {
 		field := ""
 		facetTypes.each { field += "	@${it.qname}\n" }
 		overrideKeyword	:= isOverride ? "override " : ""
-		constKeyword	:= isConst ? "const " : "" 
+		// fields can not be const if they have a getter - see afEfan::EfanCompiler._af_eval
+		constKeyword	:= (isConst && getBody == null) ? "const " : "" 
 		field +=
 		"	${overrideKeyword}${visibility.keyword}${constKeyword}${type.signature} ${name}"
 		if (getBody != null || setBody != null) {

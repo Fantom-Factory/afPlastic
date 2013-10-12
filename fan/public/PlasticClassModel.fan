@@ -88,41 +88,43 @@ class PlasticClassModel {
 
 	** Add a field.
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
-	This addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
+	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
 		// synthetic fields may be non-const - how do we check if field is synthetic?
 //		if (isConst && !fieldType.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
 
 		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody, facets)
 		fields.add(fieldModel)
-		return this
+		return fieldModel
 	}
 
 	** Override a field. 
 	** The given field must exist in a super class / mixin.
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
-	This overrideField(Field field, Str? getBody := null, Str? setBody := null) {
+	PlasticFieldModel overrideField(Field field, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
 		if (!extends.any { it.fits(field.parent) })
 			throw PlasticErr(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(field, extends))
 		if (field.isPrivate || field.isInternal)
 			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
 		
-		fields.add(PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, Facet#.emptyList))
-		return this
+		fieldModel := PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, facets)
+		fields.add(fieldModel)
+		return fieldModel
 	}
 
 	** Add a method.
 	** 'signature' does not include (brackets).
 	** 'body' does not include {braces}
-	This addMethod(Type returnType, Str methodName, Str signature, Str body) {
-		methods.add(PlasticMethodModel(false, PlasticVisibility.visPublic, returnType, methodName, signature, body))
-		return this
+	PlasticMethodModel addMethod(Type returnType, Str methodName, Str signature, Str body) {
+		methodModel := PlasticMethodModel(false, PlasticVisibility.visPublic, returnType, methodName, signature, body)
+		methods.add(methodModel)
+		return methodModel
 	}
 
 	** Add a method.
 	** The given method must exist in a super class / mixin.
 	** 'body' does not include {braces}
-	This overrideMethod(Method method, Str body) {
+	PlasticMethodModel overrideMethod(Method method, Str body) {
 		if (!extends.any { it.fits(method.parent) })
 			throw PlasticErr(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(method, extends))
 		if (method.isPrivate || method.isInternal)
@@ -132,16 +134,18 @@ class PlasticClassModel {
 		if (method.params.any { it.hasDefault })
 			throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(method))
 		
-		methods.add(PlasticMethodModel(true, PlasticVisibility.visPublic, method.returns, method.name, method.params.join(", "), body))
-		return this
+		methodModel := PlasticMethodModel(true, PlasticVisibility.visPublic, method.returns, method.name, method.params.join(", "), body)
+		methods.add(methodModel)
+		return methodModel
 	}
 
 	** Add a ctor.
 	** 'signature' does not include (brackets).
 	** 'body' does not include {braces}
-	This addCtor(Str ctorName, Str signature, Str body) {
-		ctors.add(PlasticCtorModel(PlasticVisibility.visPublic, ctorName, signature, body))
-		return this
+	PlasticCtorModel addCtor(Str ctorName, Str signature, Str body) {
+		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctorName, signature, body)
+		ctors.add(ctorModel)
+		return ctorModel
 	}
 	
 	** Converts the model into Fantom source code.
