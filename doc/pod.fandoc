@@ -1,6 +1,6 @@
 Overview [#overview]
 ********************
-'afPlastic' is a library for dynamically generating and compiling Fantom code.
+(Internal) 'afPlastic' is a library for dynamically generating and compiling Fantom code.
 
 'afPlastic' is the cornerstone of
 [afIoc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
@@ -35,6 +35,9 @@ pre>
 
 Release Notes [#releaseNotes]
 *****************************
+v1.0.4 [#v1.0.4]
+----------------
+ - Bug: Fields can not be const if they have a getter.
 
 v1.0.2 [#v1.0.2]
 ----------------
