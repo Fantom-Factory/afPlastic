@@ -60,11 +60,7 @@ const class PlasticCompiler {
 	** Different pod names prevents "sys::Err: Duplicate pod name: <podName>".
 	** We internalise podName so we can guarantee no duplicate pod names
 	Str generatePodName() {
-		index := podIndex.getAndIncrement.toStr.padl(3, '0')
-		
-		// TODO: afIoc used afPlasticPod!!!
-//		return "afPlasticPod${index}"
-		
+		index := podIndex.getAndIncrement.toStr.padl(3, '0')		
 		return "afPlastic${index}"
 	}
 }
