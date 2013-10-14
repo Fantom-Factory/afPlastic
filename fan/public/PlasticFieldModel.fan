@@ -9,6 +9,7 @@ class PlasticFieldModel {
 	Str? 				getBody
 	Str? 				setBody
 	Type[] 				facetTypes
+	Str?				initValue
 	
 	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody, Type[] facetTypes) {
 		this.isOverride	= isOverride
@@ -19,6 +20,12 @@ class PlasticFieldModel {
 		this.getBody	= getBody
 		this.setBody	= setBody
 		this.facetTypes	= facetTypes
+	}
+	
+	This withInitValue(Str initValue) {
+		// TODO: check get & set are null
+		this.initValue = initValue
+		return this
 	}
 	
 	** Converts the model into Fantom source code.
@@ -38,6 +45,8 @@ class PlasticFieldModel {
 				field += "		set { ${setBody} }\n"
 			field += "	}"
 		}
+		if (initValue != null)
+			field += " := ${initValue}"
 		field += "\n\n"
 		return field
 	}

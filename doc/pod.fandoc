@@ -40,9 +40,10 @@ Release Notes [#releaseNotes]
 *****************************
 v1.0.4 [#v1.0.4]
 ----------------
- - Bug: Fields can not be const if they have a getter.
+ - New: Fields can have init values.
  - Chg: the 'PlasticClassModel' add methods now return sub-model classes.
  - Chg: Fantom compilation is silent to reduce noise on std out. We raise afPlastic Errs in event of a compilation failure.
+ - Bug: Fields can not be const if they have a getter.
 
 v1.0.2 [#v1.0.2]
 ----------------
