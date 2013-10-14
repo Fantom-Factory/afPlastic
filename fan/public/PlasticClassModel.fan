@@ -151,7 +151,7 @@ class PlasticClassModel {
 	** Converts the model into Fantom source code.
 	** 
 	** All types are generated with a standard serialisation ctor:
-	** 
+	**
 	**   new make(|This|? f := null) { f?.call(this) }
 	Str toFantomCode() {
 		code := ""
@@ -159,7 +159,7 @@ class PlasticClassModel {
 		usingTypes.unique.each { code += "using ${it.qname}\n" }
 		code += "\n"
 		constKeyword 	:= isConst ? "const " : ""
-		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.exclude { it == Obj#}.map { it.qname }.join(", ") 
+		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.unique.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
 		code += "${constKeyword}class ${className}${extendsKeyword} {\n\n"
 			fields	.each { code += it.toFantomCode }
