@@ -1,7 +1,8 @@
 Overview [#overview]
 ********************
 
-*afPlastic is for internal Alien-Factory use only. Do not expect documenation or support!*
+*afPlastic is a support library and is intended for internal Alien-Factory development only.
+Though it may be freely distributed, you may find features are missing and the documentation incomplete!*
 
 'afPlastic' is a library for dynamically generating and compiling Fantom code.
 
