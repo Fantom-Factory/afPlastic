@@ -1,6 +1,14 @@
 # afPlastic
 
-afPlastic is a [Fantom](http://fantom.org/) library for dynamically generating and compiling Fantom code.
+*afPlastic is a support library and exists to aid the development of other Alien-Factory libraries and frameworks.
+Though you are welcome to use it, you may find features are missing and the documentation incomplete!*
+
+`afPlastic` is a [Fantom](http://fantom.org/) library for dynamically generating and compiling Fantom code.
+
+`afPlastic` is the cornerstone of
+[afIoc](http://repo.status302.com/doc/afIoc/#overview) proxied services and
+[Embedded Fantom (efan)](http://repo.status302.com/doc/afEfan/#overview) templates.
+
 
 
 
