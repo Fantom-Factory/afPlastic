@@ -111,6 +111,11 @@ class PlasticClassModel {
 		fields.add(fieldModel)
 		return fieldModel
 	}
+	
+	** Returns 'true' if this model has a field with the given name.
+	Bool hasField(Str name) {
+		fields.any { it.name == name }
+	}
 
 	** Add a method.
 	** 'signature' does not include (brackets).
