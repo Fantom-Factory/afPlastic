@@ -39,6 +39,11 @@ pre>
 
 Release Notes [#releaseNotes]
 *****************************
+
+v1.0.6 [#v1.0.6]
+----------------
+ - New: Added 'PlasticClassModel.hasField(Str name)'
+
 v1.0.4 [#v1.0.4]
 ----------------
  - New: Fields can have init values.
