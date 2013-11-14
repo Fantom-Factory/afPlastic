@@ -7,6 +7,7 @@ class PlasticMethodModel {
 	Str					name
 	Str					signature
 	Str					body
+	PlasticFacetModel[]	facets		:= [,]
 
 	internal new make(Bool isOverride, PlasticVisibility visibility, Type returnType, Str name, Str signature, Str body) {
 		this.isOverride	= isOverride
@@ -19,11 +20,14 @@ class PlasticMethodModel {
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode() {
+		code := ""
+		facets.each { code += "\t" + it.toFantomCode }
 		overrideKeyword	:= isOverride ? "override " : ""
-		return
+		code +=
 		"	${overrideKeyword}${visibility.keyword}${returnType.signature} ${name}(${signature}) {
 		 		${indentBody}
 		 	}\n\n"
+		return code
 	}
 	
 	private Str indentBody() {
