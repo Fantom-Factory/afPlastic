@@ -1,9 +1,7 @@
 
-For v1.0.2
+For v1.0.8
 ==========
 useType should take 'as TypeB'
-better facet handling for fields
-facet handling for classes and methods 
 
 
 For Future
@@ -13,6 +11,8 @@ compile multiple models into one pod
 
 Plastic to override methods with default values
  - see compilerDoc::ApiDocParser.parseMethod() 
+
+Models to take Strs, not Types, so you can add auto-gen types as fields.
 
 
 

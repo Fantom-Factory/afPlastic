@@ -8,10 +8,10 @@ class PlasticFieldModel {
 	Str					name
 	Str? 				getBody
 	Str? 				setBody
-	Type[] 				facetTypes
 	Str?				initValue
+	PlasticFacetModel[]	facets		:= [,]
 	
-	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody, Type[] facetTypes) {
+	internal new make(Bool isOverride, PlasticVisibility visibility, Bool isConst, Type type, Str name, Str? getBody, Str? setBody) {
 		this.isOverride	= isOverride
 		this.visibility = visibility
 		this.isConst	= isConst
@@ -19,7 +19,6 @@ class PlasticFieldModel {
 		this.name		= name
 		this.getBody	= getBody
 		this.setBody	= setBody
-		this.facetTypes	= facetTypes
 	}
 	
 	This withInitValue(Str initValue) {
@@ -27,11 +26,22 @@ class PlasticFieldModel {
 		this.initValue = initValue
 		return this
 	}
+
+	PlasticFacetModel addFacet(Type type, Str:Str params := [:]) {
+		facetModel := PlasticFacetModel(type, params)
+		facets.add(facetModel)
+		return facetModel
+	}
+	
+	This addFacetClone(Facet toClone) {
+		facets.add(PlasticFacetModel(toClone))
+		return this
+	}
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode() {
 		field := ""
-		facetTypes.each { field += "	@${it.qname}\n" }
+		facets.each { field += "\t" + it.toFantomCode }
 		overrideKeyword	:= isOverride ? "override " : ""
 		// fields can not be const if they have a getter - see afEfan::EfanCompiler._af_eval
 		constKeyword	:= (isConst && getBody == null) ? "const " : "" 

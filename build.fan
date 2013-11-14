@@ -4,15 +4,15 @@ class Build : BuildPod {
 
 	new make() {
 		podName = "afPlastic"
-		summary = "(Internal) A library for dynamically generating and compiling Fantom code."
-		version = Version([1,0,5])
+		summary = "(Internal) A library for dynamically generating and compiling Fantom code"
+		version = Version([1,0,6])
 
 		meta	= [	"org.name"		: "Alien-Factory",
 					"org.uri"		: "http://www.alienfactory.co.uk/",
 					"vcs.uri"		: "https://bitbucket.org/AlienFactory/afplastic",
 					"proj.name"		: "Plastic",
 					"license.name"	: "BSD 2-Clause License",
-					"repo.private"	: "true"
+					"repo.private"	: "false"
 				]
 
 		depends = ["sys 1.0", "concurrent 1.0", "compiler 1.0"]

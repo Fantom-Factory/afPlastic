@@ -5,6 +5,8 @@ class PlasticCtorModel {
 	Str					name
 	Str					signature
 	Str					body
+	PlasticFacetModel[]	facets		:= [,]
+	
 
 	internal new make(PlasticVisibility visibility, Str name, Str signature, Str body) {
 		this.visibility = visibility
@@ -15,10 +17,13 @@ class PlasticCtorModel {
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode() {
-		return
+		code := ""
+		facets.each { code += "\t" + it.toFantomCode }
+		code +=
 		"	${visibility.keyword}new ${name}(${signature}) {
 		 		${indentBody}
 		 	}\n\n"
+		return code
 	}
 	
 	private Str indentBody() {

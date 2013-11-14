@@ -8,17 +8,17 @@
 ** All added fields and methods will be public. As you will never compile against the generated 
 ** code, this should not be problematic. 
 class PlasticClassModel {
-		** Set to 'true' if this class is 'const'
-		const Bool 					isConst
+	** Set to 'true' if this class is 'const'
+	const Bool			isConst
+
+	** The name of the class.
+	const Str			className
 	
-		** The name of the class.
-		const Str 					className
-		
-		** The superclass type.
-			Type					superClass	:= Obj#		{ private set }
-	
-		** A list of mixin types the model extends. 
-			Type[]					mixins		:= [,]		{ private set }	// for user info only
+	** The superclass type.
+	Type				superClass	:= Obj#		{ private set }
+
+	** A list of mixin types the model extends. 
+	Type[]				mixins		:= [,]		{ private set }	// for user info only
 
 	private Pod[] 					usingPods	:= [,]
 	private Type[] 					usingTypes	:= [,]
@@ -26,6 +26,9 @@ class PlasticClassModel {
 	private PlasticFieldModel[]		fields		:= [,]
 	private PlasticMethodModel[]	methods		:= [,]
 	private PlasticCtorModel[]		ctors		:= [,]
+	
+	// make private when I have an addFacet() usecase
+	 		PlasticFacetModel[]		facets		:= [,]
 
 	** Creates a class model with the given name. 
 	new make(Str className, Bool isConst) {
@@ -88,12 +91,12 @@ class PlasticClassModel {
 
 	** Add a field.
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
-	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
+	PlasticFieldModel addField(Type fieldType, Str fieldName, Str? getBody := null, Str? setBody := null) {
 		// synthetic fields may be non-const - how do we check if field is synthetic?
 //		if (isConst && !fieldType.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
 
-		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody, facets)
+		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody)
 		fields.add(fieldModel)
 		return fieldModel
 	}
@@ -101,13 +104,13 @@ class PlasticClassModel {
 	** Override a field. 
 	** The given field must exist in a super class / mixin.
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
-	PlasticFieldModel overrideField(Field field, Str? getBody := null, Str? setBody := null, Type[] facets := Type#.emptyList) {
+	PlasticFieldModel overrideField(Field field, Str? getBody := null, Str? setBody := null) {
 		if (!extends.any { it.fits(field.parent) })
 			throw PlasticErr(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(field, extends))
 		if (field.isPrivate || field.isInternal)
 			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
 		
-		fieldModel := PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody, facets)
+		fieldModel := PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody)
 		fields.add(fieldModel)
 		return fieldModel
 	}
@@ -152,6 +155,7 @@ class PlasticClassModel {
 		ctors.add(ctorModel)
 		return ctorModel
 	}
+
 	
 	** Converts the model into Fantom source code.
 	** 
@@ -163,6 +167,9 @@ class PlasticClassModel {
 		usingPods.unique.each  { code += "using ${it.name}\n" }
 		usingTypes.unique.each { code += "using ${it.qname}\n" }
 		code += "\n"
+
+		facets.each { code += it.toFantomCode }
+		
 		constKeyword 	:= isConst ? "const " : ""
 		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.unique.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
