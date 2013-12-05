@@ -22,7 +22,6 @@ class PlasticClassModel {
 
 	private Pod[] 					usingPods	:= [,]
 	private Type[] 					usingTypes	:= [,]
-	private Type[] 					extends		:= [,]
 	private PlasticFieldModel[]		fields		:= [,]
 	private PlasticMethodModel[]	methods		:= [,]
 	private PlasticCtorModel[]		ctors		:= [,]
@@ -30,12 +29,14 @@ class PlasticClassModel {
 	// make private when I have an addFacet() usecase
 	 		PlasticFacetModel[]		facets		:= [,]
 
+	private Type[] 					extends() {
+		[superClass].addAll(mixins)
+	}
+	
 	** Creates a class model with the given name. 
 	new make(Str className, Bool isConst) {
 		this.isConst 	= isConst
 		this.className	= className
-		
-		extends.add(superClass)
 		addCtor("make", "|This|? f := null", "f?.call(this)")
 	}
 
@@ -67,7 +68,6 @@ class PlasticClassModel {
 		if (classType.isInternal)
 			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, classType))
 		
-		extends = extends.exclude { it == superClass}.add(classType)
 		superClass = classType
 		return this	
 	}
@@ -84,8 +84,15 @@ class PlasticClassModel {
 		if (mixinType.isInternal)
 			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, mixinType))
 
+		// need to be clever about what mixin we add
+		// see http://fantom.org/sidewalk/topic/2216
+		if (mixins.any { it.fits(mixinType) })
+			return this
+
+		mixins := this.mixins.exclude { mixinType.fits(it) }
 		mixins.add(mixinType)
-		extends.add(mixinType)
+		
+		this.mixins = mixins.unique
 		return this
 	}
 

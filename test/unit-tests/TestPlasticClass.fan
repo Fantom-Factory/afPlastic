@@ -1,5 +1,5 @@
 
-internal class TestPlasticModel : PlasticTest {
+internal class TestPlasticClass : PlasticTest {
 	
 	Void testNonConstProxyCannotOverrideConst() {
 		plasticModel := PlasticClassModel("TestImpl", false)
@@ -58,6 +58,32 @@ internal class TestPlasticModel : PlasticTest {
 		plasticModel.addField(Str#, "wotever")
 	}
 
+	// @see http://fantom.org/sidewalk/topic/2216
+	Void testUnnecessaryMixinsAreNotAdded() {
+		plasticModel := PlasticClassModel("TestImpl", true)
+		plasticModel.extendMixin(T_PlasticService12#)
+		plasticModel.extendMixin(T_PlasticService11#)
+		verifyEq(plasticModel.mixins.size, 1)
+		verifyEq(plasticModel.mixins.first, T_PlasticService12#)
+	}
+
+	// @see http://fantom.org/sidewalk/topic/2216
+	Void testLowerOrderMixinsAreRemoved() {
+		plasticModel := PlasticClassModel("TestImpl", true)
+		plasticModel.extendMixin(T_PlasticService11#)
+		plasticModel.extendMixin(T_PlasticService12#)
+		verifyEq(plasticModel.mixins.size, 1)
+		verifyEq(plasticModel.mixins.first, T_PlasticService12#)
+	}
+
+	// @see http://fantom.org/sidewalk/topic/2216
+	Void testMixinsAreNotDuped() {
+		plasticModel := PlasticClassModel("TestImpl", true)
+		plasticModel.extendMixin(T_PlasticService11#)
+		plasticModel.extendMixin(T_PlasticService11#)
+		verifyEq(plasticModel.mixins.size, 1)
+		verifyEq(plasticModel.mixins.first, T_PlasticService11#)
+	}
 }
 
 @NoDoc
@@ -99,3 +125,10 @@ const mixin T_PlasticService09 {
 
 @NoDoc
 const mixin T_PlasticService10 : T_PlasticService09 { }
+
+@NoDoc
+const mixin T_PlasticService11 { }
+
+@NoDoc
+const mixin T_PlasticService12 : T_PlasticService11 { }
+
