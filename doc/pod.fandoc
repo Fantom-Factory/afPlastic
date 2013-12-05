@@ -39,6 +39,10 @@ pre>
 Release Notes [#releaseNotes]
 *****************************
 
+v1.0.8 [#v1.0.8]
+----------------
+ - Chg: 'PlasticClassModel.mixins' only returns the lowest subclass mixins - see [Mixin Inheritance Order ]`http://fantom.org/sidewalk/topic/2216` Bug.
+
 v1.0.6 [#v1.0.6]
 ----------------
  - New: Added 'PlasticFacetModel' to classes, ctors, methods and fields.
