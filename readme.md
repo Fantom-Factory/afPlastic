@@ -12,13 +12,15 @@ Though you are welcome to use it, you may find features are missing and the docu
 
 ## Install
 
-Download from [status302](http://repo.status302.com/browse/afPlastic) and copy to `%FAN_HOME/lib/fan/` or install via [fanr](http://fantom.org/doc/docFanr/Tool.html#install):
+Download from [status302](http://repo.status302.com/browse/afPlastic) and copy to `%FAN_HOME/lib/fan/`.
+
+Or install via [fanr](http://fantom.org/doc/docFanr/Tool.html#install):
 
     $ fanr install -r http://repo.status302.com/fanr/ afPlastic
 
-To use in a [Fantom](http://fantom.org/) project, add a dependency in your `build.fan`:
+To use in a [Fantom](http://fantom.org/) project, add a dependency to your `build.fan`:
 
-    depends = ["sys 1.0", ..., "afPlastic 1+"]
+    depends = ["sys 1.0", ..., "afPlastic 1.0+"]
 
 
 
