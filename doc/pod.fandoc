@@ -1,12 +1,12 @@
 Overview [#overview]
 ********************
-*afPlastic is a support library and exists to aid the development of other Alien-Factory libraries and frameworks.
+*Plastic is a support library and exists to aid the development of other Alien-Factory libraries and frameworks.
 Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
-'afPlastic' is a library for dynamically generating and compiling Fantom code.
+'Plastic' is a library for dynamically generating and compiling Fantom code.
 
-'afPlastic' is the cornerstone of
-[afIoc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
+'Plastic' is the cornerstone of
+[Ioc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
 [Embedded Fantom (efan)]`http://repo.status302.com/doc/afEfan/#overview` templates.
 
 
@@ -39,6 +39,10 @@ pre>
 Release Notes [#releaseNotes]
 *****************************
 
+v1.0.10 [#v1.0.10]
+----------------
+ - New: Added 'PlasticUsingModel'.
+
 v1.0.8 [#v1.0.8]
 ----------------
  - Chg: 'PlasticClassModel.mixins' only returns the lowest subclass mixins - see [Mixin Inheritance Order ]`http://fantom.org/sidewalk/topic/2216` Bug.
@@ -58,7 +62,7 @@ v1.0.4 [#v1.0.4]
 v1.0.2 [#v1.0.2]
 ----------------
  - New: Added ctor models.
- - New: Updates to ensure backwards compatibility with [afIoc]`http://repo.status302.com/doc/afIoc/#overview`.
+ - New: Updates to ensure backwards compatibility with [Ioc]`http://repo.status302.com/doc/afIoc/#overview`.
  - Chg: Made 'PlasticCompiler.srcCodePadding' mutable so it may be (re)set by 'afBedSheet'.
  - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'

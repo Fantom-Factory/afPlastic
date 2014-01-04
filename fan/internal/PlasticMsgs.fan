@@ -55,4 +55,7 @@ internal const class PlasticMsgs {
 		"Can not override methods with default parameter values : ${method.qname}"
 	}
 
+	static Str usingStrMustNotStartWithUsing(Str usingStr) {
+		"UsingStr '${usingStr} must not start with 'using'"
+	}
 }

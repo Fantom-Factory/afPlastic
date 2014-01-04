@@ -1,6 +1,6 @@
 
 @T_Facet1
-internal class testPlasticFacetModel : PlasticTest {
+internal class TestPlasticFacetModel : PlasticTest {
 	
 	Void testModelCopyCtor() {
 		facetModel := PlasticFacetModel(this.typeof.facets.find { it.typeof == T_Facet1# })
