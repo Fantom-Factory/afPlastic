@@ -1,4 +1,5 @@
 
+** Models a Fantom 'using' statement.
 class PlasticUsingModel {
 
 	Str? usingStr
