@@ -20,8 +20,7 @@ class PlasticClassModel {
 	** A list of mixin types the model extends. 
 	Type[]				mixins		:= [,]		{ private set }	// for user info only
 
-	private Pod[] 					usingPods	:= [,]
-	private Type[] 					usingTypes	:= [,]
+	private PlasticUsingModel[]		usings		:= [,]
 	private PlasticFieldModel[]		fields		:= [,]
 	private PlasticMethodModel[]	methods		:= [,]
 	private PlasticCtorModel[]		ctors		:= [,]
@@ -42,13 +41,19 @@ class PlasticClassModel {
 
 	** 'use' the given pod.
 	This usingPod(Pod pod) {
-		usingPods.add(pod)
+		usings.add(PlasticUsingModel(pod))
 		return this
 	}
 
 	** 'use' the given type.
-	This usingType(Type type) {
-		usingTypes.add(type)
+	This usingType(Type type, Str? usingAs := null) {
+		usings.add(PlasticUsingModel(type, usingAs))
+		return this
+	}
+
+	** 'use' the given Str, should not start with using.
+	This usingStr(Str usingStr) {
+		usings.add(PlasticUsingModel(usingStr))
 		return this
 	}
 
@@ -171,8 +176,7 @@ class PlasticClassModel {
 	**   new make(|This|? f := null) { f?.call(this) }
 	Str toFantomCode() {
 		code := ""
-		usingPods.unique.each  { code += "using ${it.name}\n" }
-		usingTypes.unique.each { code += "using ${it.qname}\n" }
+		usings.unique.each { code += it.toFantomCode }
 		code += "\n"
 
 		facets.each { code += it.toFantomCode }
