@@ -25,4 +25,18 @@ class Build : BuildPod {
 		// exclude test code when building the pod
 		srcDirs = srcDirs.exclude { it.toStr.startsWith("test/") }		
 	}
+	
+	@Target { help = "Compile to pod file and associated natives" }
+	override Void compile() {
+		super.compile
+		
+		destDir := Env.cur.homeDir.plus(`src/${podName}/`)
+		destDir.delete
+		destDir.create		
+		`fan/`.toFile.copyInto(destDir)
+		
+		log.indent
+		log.info("Copied `fan/` to ${destDir.normalize}")
+		log.unindent
+	}	
 }

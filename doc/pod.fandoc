@@ -6,8 +6,8 @@ Though you are welcome to use it, you may find features are missing and the docu
 'Plastic' is a library for dynamically generating and compiling Fantom code.
 
 'Plastic' is the cornerstone of
-[Ioc]`http://repo.status302.com/doc/afIoc/#overview` proxied services and
-[Embedded Fantom (efan)]`http://repo.status302.com/doc/afEfan/#overview` templates.
+[Ioc]`http://www.fantomfactory.org/pods/afIoc` proxied services and
+[Embedded Fantom (efan)]`http://www.fantomfactory.org/pods/afEfan` templates.
 
 
 Quick Start [#quickStart]
