@@ -1,24 +1,22 @@
-# afPlastic
+# Plastic
 
-*afPlastic is a support library and exists to aid the development of other Alien-Factory libraries and frameworks.
+*`Plastic` is a support library that aids Alien-Factory in the development of libraries, frameworks and applications.
 Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
-`afPlastic` is a [Fantom](http://fantom.org/) library for dynamically generating and compiling Fantom code.
+`Plastic` is a [Fantom](http://fantom.org/) library for dynamically generating and compiling Fantom code.
 
-`afPlastic` is the cornerstone of
-[afIoc](http://repo.status302.com/doc/afIoc/#overview) proxied services and
+`Plastic` is the cornerstone of
+[IoC](http://repo.status302.com/doc/afIoc/#overview) proxied services and
 [Embedded Fantom (efan)](http://repo.status302.com/doc/afEfan/#overview) templates.
 
 
 ## Install
 
-Download from [status302](http://repo.status302.com/browse/afPlastic) and copy to `%FAN_HOME/lib/fan/`.
-
-Or install via [fanr](http://fantom.org/doc/docFanr/Tool.html#install):
+Install `Plastic` with the Fantom Respository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
 
     $ fanr install -r http://repo.status302.com/fanr/ afPlastic
 
-To use in a [Fantom](http://fantom.org/) project, add a dependency to your `build.fan`:
+To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
 
     depends = ["sys 1.0", ..., "afPlastic 1.0+"]
 
