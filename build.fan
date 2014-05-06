@@ -14,7 +14,9 @@ class Build : BuildPod {
 			"proj.uri"		: "http://www.fantomfactory.org/pods/afPlastic",
 			"vcs.uri"		: "https://bitbucket.org/AlienFactory/afplastic",
 			"license.name"	: "The MIT Licence",
-			"repo.private"	: "true"
+			"repo.private"	: "true",
+			
+			"tags"			: "system"
 		]
 
 		depends = [
