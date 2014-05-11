@@ -25,7 +25,7 @@ class Build : BuildPod {
 			"compiler 1.0"
 		]
 
-		srcDirs = [`test/`, `test/unit-tests/`, `fan/`, `fan/public/`, `fan/internal/`, `fan/internal/utils/`]
+		srcDirs = [`test/`, `fan/`, `fan/public/`, `fan/internal/`, `fan/internal/utils/`]
 		resDirs = [`licence.txt`, `doc/`]
 
 		docApi = true

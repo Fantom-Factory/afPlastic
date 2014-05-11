@@ -1,7 +1,6 @@
 
 For v1.0.8
 ==========
-useType should take 'as TypeB'
 
 
 For Future
