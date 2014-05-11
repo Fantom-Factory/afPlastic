@@ -51,9 +51,13 @@ pre>
 
 Release Notes [#releaseNotes]
 *****************************
+v1.0.12 [#v1.0.12]
+------------------
+ - Chg: Deprecated 'PlasticClassModel.extendClass()' and 'PlasticClassModel.extendMixin()' in favour of a single 'extend()' method.
+ - Chg: Exposed the lists in 'PlasticClassModel'.
 
 v1.0.10 [#v1.0.10]
-----------------
+------------------
  - New: Added 'PlasticUsingModel'.
 
 v1.0.8 [#v1.0.8]

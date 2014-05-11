@@ -11,25 +11,9 @@ internal const class PlasticMsgs {
 		"Const type ${typeName} can not subclass non-const type ${superType.qname}"
 	}
 
-	static Str canOnlyExtendOneClass(Str typeName, Type superType1, Type superType2) {
-		"Class can only extend ONE class - class ${typeName} : ${superType1.qname}, ${superType2.qname}"
-	}
-
-	static Str canOnlyExtendClass(Type mixinType) {
-		"Type ${mixinType.qname} is NOT a class"
-	}
-
-	static Str canOnlyExtendMixins(Type mixinType) {
-		"Type ${mixinType.qname} is NOT a mixin"
-	}
-	
 	static Str superTypesMustBePublic(Str typeName, Type superType) {
 		"Super types must be 'public' or 'protected' scope - class ${typeName} : ${superType.qname}"
 	}
-
-//	static Str constTypesMustHaveConstFields(Str typeName, Type fieldType, Str fieldName) {
-//		"Const type ${typeName} must ONLY declare const fields - ${fieldType.qname} ${fieldName}"
-//	}
 
 	static Str overrideMethodDoesNotBelongToSuperType(Method method, Type[] superTypes) {
 		"Method ${method.qname} does not belong to super types " + superTypes.map { it.qname }.join(", ")

@@ -14,7 +14,7 @@ class IocClassModel {
 	}
 	
 	This extendMixin(Type mixinType) {
-		model.extendMixin(mixinType)
+		model.extend(mixinType)
 		return this
 	}
 	

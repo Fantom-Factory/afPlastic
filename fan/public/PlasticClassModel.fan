@@ -6,7 +6,8 @@
 **   new make(|This|? f := null) { f?.call(this) }
 ** 
 ** All added fields and methods will be public. As you will never compile against the generated 
-** code, this should not be problematic. 
+** code, this should not be problematic.
+// Class Model is correct, to be paired with MixinModel!
 class PlasticClassModel {
 	** Set to 'true' if this class is 'const'
 	const Bool			isConst
@@ -20,15 +21,13 @@ class PlasticClassModel {
 	** A list of mixin types the model extends. 
 	Type[]				mixins		:= [,]		{ private set }	// for user info only
 
-	private PlasticUsingModel[]		usings		:= [,]
-	private PlasticFieldModel[]		fields		:= [,]
-	private PlasticMethodModel[]	methods		:= [,]
-	private PlasticCtorModel[]		ctors		:= [,]
-	
-	// make private when I have an addFacet() usecase
-	 		PlasticFacetModel[]		facets		:= [,]
+	PlasticUsingModel[]		usings	{ private set }
+	PlasticFacetModel[]		facets	{ private set }
+	PlasticFieldModel[]		fields	{ private set }
+	PlasticMethodModel[]	methods	{ private set }
+	PlasticCtorModel[]		ctors	{ private set }	
 
-	private Type[] 					extends() {
+	private Type[] 			extends() {
 		[superClass].addAll(mixins)
 	}
 	
@@ -36,6 +35,11 @@ class PlasticClassModel {
 	new make(Str className, Bool isConst) {
 		this.isConst 	= isConst
 		this.className	= className
+		this.usings		= [,]
+		this.facets		= [,]
+		this.fields		= [,]
+		this.methods	= [,]
+		this.ctors		= [,]
 		addCtor("make", "|This|? f := null", "f?.call(this)")
 	}
 
@@ -57,48 +61,59 @@ class PlasticClassModel {
 		return this
 	}
 
-	** Sets the given type as the superclass. 
+	PlasticFacetModel addFacet(Type type, Str:Str params := [:]) {
+		facetModel := PlasticFacetModel(type, params)
+		facets.add(facetModel)
+		return facetModel
+	}
+	
+	This addFacetClone(Facet toClone) {
+		facets.add(PlasticFacetModel(toClone))
+		return this
+	}
+
+	** Extends the given type; be it a class or a mixin.
+	** 
+	** If 'type' is a class, it is set as the superclass, if it is a mixin, it is extended.
+	** 
 	** If this model is const, then the given type must be const also.
-	** This method may only be called once.
-	** The superclass must be an acutal 'class' (not a mixin) and be public.  
-	This extendClass(Type classType) {
-		if (isConst && !classType.isConst)
-			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, classType))
-		if (!isConst && classType.isConst)
-			throw PlasticErr(PlasticMsgs.nonConstTypeCannotSubclassConstType(className, classType))
-		if (superClass != Obj#)
-			throw PlasticErr(PlasticMsgs.canOnlyExtendOneClass(className, superClass, classType))
-		if (!classType.isClass)
-			throw PlasticErr(PlasticMsgs.canOnlyExtendClass(classType))
-		if (classType.isInternal)
-			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, classType))
+	** 
+	** The type must be public.
+	This extend(Type type) {
+		if (isConst && !type.isConst)
+			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, type))
+		if (!isConst && type.isConst)
+			throw PlasticErr(PlasticMsgs.nonConstTypeCannotSubclassConstType(className, type))
+		if (type.isInternal)
+			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, type))
 		
-		superClass = classType
+		if (type.isClass) {
+			superClass = type
+		}
+
+		if (type.isMixin) {
+			// need to be clever about what mixin we add
+			// see http://fantom.org/sidewalk/topic/2216
+			if (mixins.any { it.fits(type) })
+				return this
+	
+			mixins := this.mixins.exclude { type.fits(it) }
+			mixins.add(type)
+			
+			this.mixins = mixins.unique			
+		}
+		
 		return this	
 	}
 
-	** Extend the given mixin. 
-	** The mixin must be public.  
+	@NoDoc @Deprecated { msg="Use extend() instead" }
+	This extendClass(Type classType) {
+		extend(classType)
+	}
+
+	@NoDoc @Deprecated { msg="Use extend() instead" }
 	This extendMixin(Type mixinType) {
-		if (isConst && !mixinType.isConst)
-			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, mixinType))
-		if (!isConst && mixinType.isConst)
-			throw PlasticErr(PlasticMsgs.nonConstTypeCannotSubclassConstType(className, mixinType))
-		if (!mixinType.isMixin)
-			throw PlasticErr(PlasticMsgs.canOnlyExtendMixins(mixinType))
-		if (mixinType.isInternal)
-			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, mixinType))
-
-		// need to be clever about what mixin we add
-		// see http://fantom.org/sidewalk/topic/2216
-		if (mixins.any { it.fits(mixinType) })
-			return this
-
-		mixins := this.mixins.exclude { mixinType.fits(it) }
-		mixins.add(mixinType)
-		
-		this.mixins = mixins.unique
-		return this
+		extend(mixinType)
 	}
 
 	** Add a field.
@@ -108,7 +123,7 @@ class PlasticClassModel {
 //		if (isConst && !fieldType.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypesMustHaveConstFields(className, fieldType, fieldName))
 
-		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, fieldType.isConst, fieldType, fieldName, getBody, setBody)
+		fieldModel := PlasticFieldModel(false, PlasticVisibility.visPublic, isConst, fieldType, fieldName, getBody, setBody)
 		fields.add(fieldModel)
 		return fieldModel
 	}

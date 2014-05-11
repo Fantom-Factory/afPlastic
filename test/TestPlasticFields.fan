@@ -20,7 +20,7 @@ internal class TestPlasticFields : PlasticTest {
 
 	Void testOverrideFieldsMustBelongToSuperType() {
 		plasticModel := PlasticClassModel("TestImpl", true)
-		plasticModel.extendMixin(T_PlasticService01#)
+		plasticModel.extend(T_PlasticService01#)
 		verifyErrMsg(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(Int#minVal, [Obj#, T_PlasticService01#])) {
 			plasticModel.overrideField(Int#minVal, "wotever")
 		}
@@ -28,7 +28,7 @@ internal class TestPlasticFields : PlasticTest {
 	
 	Void testOverrideFieldsMustHaveProtectedScope() {
 		plasticModel := PlasticClassModel("TestImpl", false)
-		plasticModel.extendMixin(T_PlasticService07#)
+		plasticModel.extend(T_PlasticService07#)
 		verifyErrMsg(PlasticMsgs.overrideFieldHasWrongScope(T_PlasticService07#oops)) {
 			plasticModel.overrideField(T_PlasticService07#oops, "wotever")
 		}
