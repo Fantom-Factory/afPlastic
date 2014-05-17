@@ -1,9 +1,9 @@
-using concurrent::AtomicInt
+using concurrent
 using compiler
 
 ** Compiles Fantom source code and afPlastic models into usable Fantom code.
 const class PlasticCompiler {
-
+	
 	** static because pods are shared throughout the JVM, not just the IoC 
 	private static const AtomicInt podIndex	:= AtomicInt(1)
 
@@ -17,7 +17,7 @@ const class PlasticCompiler {
 	}
 	
 	private const AtomicInt _srcCodePadding	:= AtomicInt(5)
-		
+
 	** Creates a 'PlasticCompiler'.
 	new make(|This|? in := null) { in?.call(this) }
 	
@@ -29,6 +29,20 @@ const class PlasticCompiler {
 		type	:= pod.type(model.className)
 		return type
 	}
+
+	Type[] compileModels(PlasticClassModel[] models, Str? podName := null) {
+		if (models.isEmpty)	return Type[,]
+		
+		podName = podName ?: generatePodName
+		
+		podCode	:= models.first
+		models.eachRange(1..-1) { podCode.usings.addAll(it.usings); it.usings.clear }
+		fanCode	:= models.map { it.toFantomCode }.join("\n")
+		
+		pod		:= compileCode(fanCode, podName)
+		types	:= models.map { pod.type(it.className) }
+		return types
+	}
 	
 	** Compiles the given Fantom code into a pod. 
 	** If no pod name is given, a unique one will be generated.
@@ -36,6 +50,8 @@ const class PlasticCompiler {
 		podName = podName ?: generatePodName
 		
 		try {
+			then := DateTime.now
+			
 			input 		    := CompilerInput()
 			input.podName 	= podName
 	 		input.summary 	= "Alien-Factory Transient Pod"
@@ -49,7 +65,7 @@ const class PlasticCompiler {
 	
 			compiler 		:= Compiler(input)
 			pod 			:= compiler.compile.transientPod
-			return pod
+			return pod		
 
 		} catch (CompilerErr err) {
 			srcCode := SrcCodeSnippet(`${podName}`, fantomPodCode)

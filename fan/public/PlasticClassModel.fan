@@ -1,3 +1,4 @@
+using concurrent
 
 ** Models a Fantom class.
 ** 
