@@ -16,6 +16,10 @@ To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan
 
     depends = ["sys 1.0", ..., "afPlastic 1.0+"]
 
+## Documentation 
+
+Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afPlastic/#overview).
+
 ## Quick Start 
 
 ```
