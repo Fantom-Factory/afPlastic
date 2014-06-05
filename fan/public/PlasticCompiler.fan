@@ -48,10 +48,11 @@ const class PlasticCompiler {
 	** If no pod name is given, a unique one will be generated.
 	Pod compileCode(Str fantomPodCode, Str? podName := null) {
 		podName = podName ?: generatePodName
+
+		if (Pod.of(this).log.isDebug)
+			Pod.of(this).log.debug("Compiling code for pod: ${podName}\n${fantomPodCode}")
 		
 		try {
-			then := DateTime.now
-			
 			input 		    := CompilerInput()
 			input.podName 	= podName
 	 		input.summary 	= "Alien-Factory Transient Pod"
