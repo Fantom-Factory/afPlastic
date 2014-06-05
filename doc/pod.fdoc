@@ -57,6 +57,10 @@ pre>
 
 Release Notes [#releaseNotes]
 *****************************
+v1.0.14 [#v1.0.14]
+------------------
+ - New: Compiled Pod code is logged at debug level.
+
 v1.0.12 [#v1.0.12]
 ------------------
  - New: Added 'PlasticCompiler.compileModels()' for compiling multiple models at once.
