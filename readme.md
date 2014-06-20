@@ -1,6 +1,6 @@
 ## Overview 
 
-*`Plastic` is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
+*Plastic is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
 `Plastic` is a library for dynamically generating and compiling Fantom code.
 
@@ -18,7 +18,7 @@ To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan
 
 ## Documentation 
 
-Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afPlastic/#overview).
+Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afPlastic/).
 
 ## Quick Start 
 
