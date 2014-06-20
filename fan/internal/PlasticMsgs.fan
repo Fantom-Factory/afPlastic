@@ -35,8 +35,8 @@ internal const class PlasticMsgs {
 		"Field ${field.qname} must have 'public' or 'protected' scope"
 	}
 
-	static Str overrideMethodsCanNotHaveDefaultValues(Method method) {
-		"Can not override methods with default parameter values : ${method.qname}"
+	static Str overrideMethodsCanNotHaveDefaultValues(Method method, Param param) {
+		"Can not determine a default parameter value for param '${param.name}' of : ${method.qname}"
 	}
 
 	static Str usingStrMustNotStartWithUsing(Str usingStr) {

@@ -16,7 +16,9 @@ class Build : BuildPod {
 		depends = [
 			"sys 1.0", 
 			"concurrent 1.0", 
-			"compiler 1.0"
+			"compiler 1.0",
+			
+			"afBeanUtils 0.0.4+"
 		]
 
 		srcDirs = [`test/`, `fan/`, `fan/public/`, `fan/internal/`, `fan/internal/utils/`]

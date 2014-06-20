@@ -5,9 +5,7 @@ Though you are welcome to use it, you may find features are missing and the docu
 
 'Plastic' is a library for dynamically generating and compiling Fantom code.
 
-'Plastic' is the cornerstone of
-[IoC]`http://www.fantomfactory.org/pods/afIoc` proxied services and
-[Embedded Fantom (efan)]`http://www.fantomfactory.org/pods/afEfan` templates.
+'Plastic' is the cornerstone of [IoC]`pod:afIoc` proxied services and [Embedded Fantom (efan)]`pod:afEfan` templates.
 
 
 
@@ -25,7 +23,7 @@ To use in a [Fantom]`http://fantom.org/` project, add a dependency to 'build.fan
 
 Documentation [#documentation]
 ******************************
-Full API & fandocs are available on the [Status302 repository]`http://repo.status302.com/doc/@{pod.name}/#overview`.
+Full API & fandocs are available on the [Status302 repository]`http://repo.status302.com/doc/@{pod.name}/`.
 
 
 
@@ -59,7 +57,9 @@ Release Notes [#releaseNotes]
 *****************************
 v1.0.14 [#v1.0.14]
 ------------------
+ - New: 'Plastic' now attempts to guess the default values for overridden methods.
  - New: Compiled Pod code is logged at debug level.
+ - Chg: Now depends on [Bean Utils]`pod:afBeanUtils`
 
 v1.0.12 [#v1.0.12]
 ------------------
@@ -90,7 +90,7 @@ v1.0.4 [#v1.0.4]
 v1.0.2 [#v1.0.2]
 ----------------
  - New: Added ctor models.
- - New: Updates to ensure backwards compatibility with [Ioc]`http://repo.status302.com/doc/afIoc/#overview`.
+ - New: Updates to ensure backwards compatibility with [IoC]`pod:afIoc`.
  - Chg: Made 'PlasticCompiler.srcCodePadding' mutable so it may be (re)set by 'afBedSheet'.
  - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
@@ -98,5 +98,5 @@ v1.0.2 [#v1.0.2]
 v1.0.0 [#v1.0.0]
 ----------------
  - New: Initial release.
- - Chg: 'afPlastic' was jail breaked from [afIoc]`http://repo.status302.com/doc/afIoc/#overview` and updated for use by [afEfan]`http://repo.status302.com/doc/afEfan/#overview`
+ - Chg: 'Plastic' was jail breaked from [IoC]`pod:afIoc` and updated for use by [efan]`pod:afEfan`
 
