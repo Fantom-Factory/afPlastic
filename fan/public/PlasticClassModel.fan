@@ -1,4 +1,5 @@
 using concurrent
+using afBeanUtils
 
 ** Models a Fantom class.
 ** 
@@ -167,10 +168,19 @@ class PlasticClassModel {
 			throw PlasticErr(PlasticMsgs.overrideMethodHasWrongScope(method))
 		if (!method.isVirtual)
 			throw PlasticErr(PlasticMsgs.overrideMethodsMustBeVirtual(method))
-		if (method.params.any { it.hasDefault })
-			throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(method))
 		
-		methodModel := PlasticMethodModel(true, PlasticVisibility.visPublic, method.returns, method.name, method.params.join(", "), body)
+		params := method.params.map |param->Str| {
+			pSig := "${param.type.signature} ${param.name}"
+			if (param.hasDefault) {
+				def := guessDefault(param.type, param.name)
+				if (def == null)
+					throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(method, param))
+				pSig += " := ${def}"
+			}
+			return pSig
+		}
+		
+		methodModel := PlasticMethodModel(true, PlasticVisibility.visPublic, method.returns, method.name, params.join(", "), body)
 		methods.add(methodModel)
 		return methodModel
 	}
@@ -206,5 +216,31 @@ class PlasticClassModel {
 			methods	.each { code += it.toFantomCode }
 		code += "}\n"
 		return code
+	}
+	
+	internal Str? guessDefault(Type type, Str name) {
+		// Special case for Bool checked
+		if (type == Bool# && name.equalsIgnoreCase("checked"))
+			return true.toStr
+			
+		try {
+			// nullable values
+			defVal := BeanFactory.defaultValue(type)
+			if (defVal == null)
+				return "null"
+			
+			// types with a defVal and a toCode() method
+			toCode := ReflectUtils.findMethod(type, "toCode", null, false, Str#)
+			if (toCode != null)
+				return toCode.callOn(defVal, null)
+		} catch 
+			return null
+			
+		// types with a default ctor 
+		ctor := ReflectUtils.findCtors(type)
+		if (ctor.size == 1)
+			return "${type.qname}()"
+		
+		return null
 	}
 }

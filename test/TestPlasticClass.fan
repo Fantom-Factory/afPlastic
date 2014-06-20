@@ -45,12 +45,46 @@ internal class TestPlasticClass : PlasticTest {
 		}
 	}
 
-	Void testOverrideMethodsCanNotHaveDefParams() {
+	Void testCanNotGuessDefaultParamValue1() {
 		plasticModel := PlasticClassModel("TestImpl", false)
-		plasticModel.extend(T_PlasticService08#)
-		verifyErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService08#redirect)) {
-			plasticModel.overrideMethod(T_PlasticService08#redirect, "wotever")
+		plasticModel.extend(T_PlasticService14#)
+		verifyErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService14#obj, T_PlasticService14#obj.params.first)) {
+			plasticModel.overrideMethod(T_PlasticService14#obj, "wotever")
 		}
+	}
+	
+	Void testCanNotGuessDefaultParamValue2() {
+		plasticModel := PlasticClassModel("TestImpl", false)
+		plasticModel.extend(T_PlasticService15#)
+		verifyErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService15#obj, T_PlasticService15#obj.params.first)) {
+			plasticModel.overrideMethod(T_PlasticService15#obj, "wotever")
+		}
+	}
+	
+	Void testDefaultParamGuessing() {
+		plasticModel := PlasticClassModel("TestImpl", false)
+		plasticModel.extend(T_PlasticService13#)
+		plasticModel.overrideMethod(T_PlasticService13#bool, 		"return bool")
+		plasticModel.overrideMethod(T_PlasticService13#checked, 	"return checked")
+		plasticModel.overrideMethod(T_PlasticService13#nullable, 	"return obj")
+		plasticModel.overrideMethod(T_PlasticService13#int, 		"return int")
+		plasticModel.overrideMethod(T_PlasticService13#str, 		"return str")
+		plasticModel.overrideMethod(T_PlasticService13#listInt,		"return ints")
+		plasticModel.overrideMethod(T_PlasticService13#listStr,		"return strs")
+		plasticModel.overrideMethod(T_PlasticService13#map,			"return map")
+		plasticModel.overrideMethod(T_PlasticService13#objCtor,		"return obj")
+		
+		p13 := PlasticCompiler().compileModel(plasticModel).make as T_PlasticService13
+		
+		verifyEq(p13.bool, 		false)
+		verifyEq(p13.checked,	true)
+		verifyEq(p13.nullable,	null)
+		verifyEq(p13.int,		0)
+		verifyEq(p13.str,		"")
+		verifyEq(p13.listInt,	Int[,])
+		verifyEq(p13.listStr,	Str[,])
+		verifyEq(p13.map,		Int:Str[:])
+		verifyEq(p13.objCtor.typeof,	T_PlasticService04#)
 	}
 	
 	Void testConstTypeCanHaveFields() {
@@ -114,11 +148,6 @@ mixin T_PlasticService07 {
 }
 
 @NoDoc
-mixin T_PlasticService08 { 
-	abstract Void redirect(Uri uri, Int statusCode := 303)
-}
-
-@NoDoc
 const mixin T_PlasticService09 {
 	abstract Void deeDee()
 }
@@ -132,3 +161,30 @@ const mixin T_PlasticService11 { }
 @NoDoc
 const mixin T_PlasticService12 : T_PlasticService11 { }
 
+@NoDoc
+mixin T_PlasticService13 {
+	abstract Obj? bool(Bool bool := false)
+	abstract Obj? checked(Bool checked := true)
+	abstract Obj? nullable(Int? obj := null)
+	abstract Obj? int(Int int := 0)
+	abstract Obj? str(Str str := Str.defVal)
+	abstract Obj? listInt(Int[] ints := [,])
+	abstract Obj? listStr(Str[] strs := Str#.emptyList)
+	abstract Obj? map(Int:Str map := [:])
+	abstract Obj? objCtor(T_PlasticService04 obj := T_PlasticService04())
+}
+
+@NoDoc
+mixin T_PlasticService14 { 	
+	abstract Obj? obj(Obj obj := 69)
+}
+
+@NoDoc
+class T_PlasticService08 { 	
+	new make(Int wotever) { }
+}
+
+@NoDoc
+mixin T_PlasticService15 { 	
+	abstract Obj? obj(T_PlasticService08 obj := T_PlasticService08(3))
+}
