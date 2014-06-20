@@ -4,13 +4,14 @@ class Build : BuildPod {
 
 	new make() {
 		podName = "afPlastic"
-		summary = "(Internal) A library for dynamically generating and compiling Fantom code"
-		version = Version("1.0.13")
+		summary = "A library for dynamically generating and compiling Fantom code"
+		version = Version("1.0.14")
 
 		meta = [	
 			"proj.name"		: "Plastic",
+			"internal"		: "true",
 			"tags"			: "system",
-			"repo.private"	: "true"		
+			"repo.private"	: "true"
 		]
 
 		depends = [
@@ -18,13 +19,10 @@ class Build : BuildPod {
 			"concurrent 1.0", 
 			"compiler 1.0",
 			
-			"afBeanUtils 0.0.4+"
+			"afBeanUtils 1.0.0+"
 		]
 
 		srcDirs = [`test/`, `fan/`, `fan/public/`, `fan/internal/`, `fan/internal/utils/`]
 		resDirs = [,]
-
-		docApi = true
-		docSrc = true
 	}
 }
