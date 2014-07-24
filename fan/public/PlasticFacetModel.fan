@@ -22,7 +22,9 @@ class PlasticFacetModel {
 			// all facets are serializable 
 			// see http://fantom.org/doc/docLang/Facets.html#classes
 			sBuf.clear.out.writeObj(value)
-			params[field.name] = sBuf.toStr
+			// Add cast for null values
+			// see http://fantom.org/sidewalk/topic/2320
+			params[field.name] = "(${field.type.signature}) ${sBuf.toStr}"
 		}
 	}
 
