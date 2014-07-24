@@ -52,11 +52,15 @@ pre>
 
 Release Notes [#releaseNotes]
 *****************************
+v1.0.16 [#v1.0.16]
+------------------
+ - Bug: Fix for null values in facets. See [Compilation Err when using Facet with null value]`http://fantom.org/sidewalk/topic/2320`.
+
 v1.0.14 [#v1.0.14]
 ------------------
  - New: 'Plastic' now attempts to guess the default values for overridden methods.
  - New: Compiled Pod code is logged at debug level.
- - Chg: Now depends on [Bean Utils]`pod:afBeanUtils`
+ - Chg: Now depends on [Bean Utils]`pod:afBeanUtils` for guessing the default values.
 
 v1.0.12 [#v1.0.12]
 ------------------

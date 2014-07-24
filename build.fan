@@ -5,13 +5,13 @@ class Build : BuildPod {
 	new make() {
 		podName = "afPlastic"
 		summary = "A library for dynamically generating and compiling Fantom code"
-		version = Version("1.0.15")
+		version = Version("1.0.16")
 
 		meta = [	
 			"proj.name"		: "Plastic",
 			"internal"		: "true",
 			"tags"			: "system",
-			"repo.private"	: "true"
+			"repo.private"	: "false"
 		]
 
 		depends = [
