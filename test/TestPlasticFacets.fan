@@ -4,7 +4,7 @@ internal class TestPlasticFacetModel : PlasticTest {
 	
 	Void testModelCopyCtor() {
 		facetModel := PlasticFacetModel(this.typeof.facets.find { it.typeof == T_Facet1# })
-		verifyEq(facetModel.toFantomCode, """@afPlastic::T_Facet1 {num=afPlastic::T_Enum("one"); ting=afPlastic::T_Thing; str="String"; uri=`Uri`}\n""")
+		verifyEq(facetModel.toFantomCode, """@afPlastic::T_Facet1 {num=(afPlastic::T_Enum) afPlastic::T_Enum(\"one\"); ting=(afPlastic::T_Thing) afPlastic::T_Thing; str=(sys::Str) \"String\"; uri=(sys::Uri) `Uri`}\n""")
 	}
 	
 }
