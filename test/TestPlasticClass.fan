@@ -1,3 +1,4 @@
+using [java] java.util::Date as jDate
 
 internal class TestPlasticClass : PlasticTest {
 	
@@ -187,4 +188,9 @@ class T_PlasticService08 {
 @NoDoc
 mixin T_PlasticService15 { 	
 	abstract Obj? obj(T_PlasticService08 obj := T_PlasticService08(3))
+}
+
+@NoDoc
+mixin T_PlasticService16 { 	
+	abstract jDate? jdate
 }
