@@ -3,14 +3,14 @@ internal class TestPlasticClass : PlasticTest {
 	
 	Void testNonConstProxyCannotOverrideConst() {
 		plasticModel := PlasticClassModel("TestImpl", false)
-		verifyErrMsg(PlasticMsgs.nonConstTypeCannotSubclassConstType("TestImpl", T_PlasticService01#)) {
+		verifyPlasticErrMsg(PlasticMsgs.nonConstTypeCannotSubclassConstType("TestImpl", T_PlasticService01#)) |->| {
 			plasticModel.extend(T_PlasticService01#)
 		}
 	}
 
 	Void testConstProxyCannotOverrideNonConst() {
 		plasticModel := PlasticClassModel("TestImpl", true)
-		verifyErrMsg(PlasticMsgs.constTypeCannotSubclassNonConstType("TestImpl", T_PlasticService02#)) {
+		verifyPlasticErrMsg(PlasticMsgs.constTypeCannotSubclassNonConstType("TestImpl", T_PlasticService02#)) |->| {
 			plasticModel.extend(T_PlasticService02#)
 		}
 	}
@@ -18,7 +18,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustBelongToSuperType() {
 		plasticModel := PlasticClassModel("TestImpl", true)
 		plasticModel.extend(T_PlasticService01#)
-		verifyErrMsg(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(Int#abs, [Obj#, T_PlasticService01#])) {
+		verifyPlasticErrMsg(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(Int#abs, [Obj#, T_PlasticService01#])) |->| {
 			plasticModel.overrideMethod(Int#abs, "wotever")
 		}
 	}
@@ -32,7 +32,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustHaveProtectedScope() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService05#)
-		verifyErrMsg(PlasticMsgs.overrideMethodHasWrongScope(T_PlasticService05#oops)) {
+		verifyPlasticErrMsg(PlasticMsgs.overrideMethodHasWrongScope(T_PlasticService05#oops)) |->| {
 			plasticModel.overrideMethod(T_PlasticService05#oops, "wotever")
 		}
 	}
@@ -40,7 +40,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustBeVirtual() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService06#)
-		verifyErrMsg(PlasticMsgs.overrideMethodsMustBeVirtual(T_PlasticService06#oops)) {
+		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsMustBeVirtual(T_PlasticService06#oops)) |->| {
 			plasticModel.overrideMethod(T_PlasticService06#oops, "wotever")
 		}
 	}
@@ -48,7 +48,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testCanNotGuessDefaultParamValue1() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService14#)
-		verifyErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService14#obj, T_PlasticService14#obj.params.first)) {
+		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService14#obj, T_PlasticService14#obj.params.first)) |->| {
 			plasticModel.overrideMethod(T_PlasticService14#obj, "wotever")
 		}
 	}
@@ -56,7 +56,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testCanNotGuessDefaultParamValue2() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService15#)
-		verifyErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService15#obj, T_PlasticService15#obj.params.first)) {
+		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService15#obj, T_PlasticService15#obj.params.first)) |->| {
 			plasticModel.overrideMethod(T_PlasticService15#obj, "wotever")
 		}
 	}
