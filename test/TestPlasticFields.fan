@@ -1,7 +1,6 @@
 
 internal class TestPlasticFields : PlasticTest {
 
-
 // const fields need not be const if they're synthetic
 //	Void testFieldsForConstTypeMustByConst() {
 //		plasticModel := PlasticClassModel("TestImpl", true)
@@ -32,5 +31,12 @@ internal class TestPlasticFields : PlasticTest {
 		verifyPlasticErrMsg(PlasticMsgs.overrideFieldHasWrongScope(T_PlasticService07#oops)) |->| {
 			plasticModel.overrideField(T_PlasticService07#oops, "wotever")
 		}
+	}
+
+	Void testJavaFields() {
+		plasticModel := PlasticClassModel("TestImpl", false)
+		plasticModel.extend(T_PlasticService16#)
+		plasticModel.overrideField(T_PlasticService16#jdate, "wotever")
+		myClass	:= PlasticCompiler().compileModel(plasticModel)
 	}
 }
