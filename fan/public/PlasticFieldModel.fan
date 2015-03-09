@@ -39,14 +39,16 @@ class PlasticFieldModel {
 	}
 	
 	** Converts the model into Fantom source code.
-	Str toFantomCode() {
+	Str toFantomCode(TypeCache typeCache) {
 		field := ""
 		facets.each { field += "\t" + it.toFantomCode }
 		overrideKeyword	:= isOverride ? "override " : ""
 		// fields can not be const if they have a getter - see afEfan::EfanCompiler._af_eval
 		constKeyword	:= (isConst && getBody == null) ? "const " : "" 
 		field +=
-		"	${overrideKeyword}${visibility.keyword}${constKeyword}${type.signature} ${name}"
+		"	${overrideKeyword}${visibility.keyword}${constKeyword}${typeCache.signature(type)} ${name}"
+		if (initValue != null)
+			field += " := ${initValue}"
 		if (getBody != null || setBody != null) {
 			field += " {\n"
 			if (getBody != null)
@@ -55,8 +57,6 @@ class PlasticFieldModel {
 				field += "		set { ${setBody} }\n"
 			field += "	}"
 		}
-		if (initValue != null)
-			field += " := ${initValue}"
 		field += "\n\n"
 		return field
 	}

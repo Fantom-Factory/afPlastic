@@ -1,4 +1,10 @@
-## Overview 
+#Plastic v1.0.18
+---
+[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
+[![pod: v1.0.18](http://img.shields.io/badge/pod-v1.0.18-yellow.svg)](http://www.fantomfactory.org/pods/afPlastic)
+![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
+
+## Overview
 
 *Plastic is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
@@ -6,7 +12,7 @@
 
 `Plastic` is the cornerstone of [IoC](http://www.fantomfactory.org/pods/afIoc) proxied services and [Embedded Fantom (efan)](http://www.fantomfactory.org/pods/afEfan) templates.
 
-## Install 
+## Install
 
 Install `Plastic` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
 
@@ -16,11 +22,11 @@ To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan
 
     depends = ["sys 1.0", ..., "afPlastic 1.0+"]
 
-## Documentation 
+## Documentation
 
 Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afPlastic/).
 
-## Quick Start 
+## Quick Start
 
 ```
 model := PlasticClassModel("MyClass", true)

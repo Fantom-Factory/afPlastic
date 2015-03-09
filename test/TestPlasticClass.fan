@@ -192,5 +192,12 @@ mixin T_PlasticService15 {
 
 @NoDoc
 mixin T_PlasticService16 { 	
-	abstract jDate? jdate
+	abstract jDate? jdate1
+	abstract jDate? jdate2
+}
+
+@NoDoc
+mixin T_PlasticService17 { 	
+	abstract jDate? getDate1()
+	abstract jDate? getDate2()
 }

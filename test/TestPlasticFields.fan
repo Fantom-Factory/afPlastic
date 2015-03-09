@@ -14,7 +14,7 @@ internal class TestPlasticFields : PlasticTest {
 	Void testSytheticFieldsForConstTypeAreNotConst() {
 		plasticModel := PlasticClassModel("TestImpl", true)
 		fieldModel 	 := plasticModel.addField(Str#, "_af_eval", "throw Err()", "echo(it)")
-		verifyFalse(fieldModel.toFantomCode.contains("const"))
+		verifyFalse(fieldModel.toFantomCode(TypeCache()).contains("const"))
 	}
 
 	Void testOverrideFieldsMustBelongToSuperType() {
@@ -33,10 +33,19 @@ internal class TestPlasticFields : PlasticTest {
 		}
 	}
 
+	Void testGetSetAndInit() {
+		plasticModel := PlasticClassModel("TestImpl", false)
+		f := plasticModel.addField(Str#, "str", "&str", "&str = it")
+		f.initValue = "\"Dude\""
+		myClass	:= PlasticCompiler().compileModel(plasticModel)
+	}
+
 	Void testJavaFields() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService16#)
-		plasticModel.overrideField(T_PlasticService16#jdate, "wotever")
+		plasticModel.overrideField(T_PlasticService16#jdate1, "null")
+		plasticModel.overrideField(T_PlasticService16#jdate2, "null")
 		myClass	:= PlasticCompiler().compileModel(plasticModel)
-	}
+	}	
 }
+
