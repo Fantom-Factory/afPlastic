@@ -201,9 +201,9 @@ class PlasticClassModel {
 	**
 	**   new make(|This|? f := null) { f?.call(this) }
 	Str toFantomCode() {
+		typeCache := TypeCache()
+
 		code := ""
-		usings.unique.each { code += it.toFantomCode }
-		code += "\n"
 
 		facets.each { code += it.toFantomCode }
 		
@@ -211,10 +211,17 @@ class PlasticClassModel {
 		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.unique.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
 		code += "${constKeyword}class ${className}${extendsKeyword} {\n\n"
-			fields	.each { code += it.toFantomCode }
+			fields	.each { code += it.toFantomCode(typeCache) }
 			ctors	.each { code += it.toFantomCode }
-			methods	.each { code += it.toFantomCode }
+			methods	.each { code += it.toFantomCode(typeCache) }
 		code += "}\n"
+
+		typeCache.addTo(usings)
+		useStr := ""
+		usings.unique.each { useStr += it.toFantomCode }
+		useStr += "\n"
+
+		code = useStr + code
 		return code
 	}
 	

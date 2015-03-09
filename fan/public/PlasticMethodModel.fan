@@ -19,12 +19,12 @@ class PlasticMethodModel {
 	}
 	
 	** Converts the model into Fantom source code.
-	Str toFantomCode() {
+	Str toFantomCode(TypeCache typeCache) {
 		code := ""
 		facets.each { code += "\t" + it.toFantomCode }
 		overrideKeyword	:= isOverride ? "override " : ""
 		code +=
-		"	${overrideKeyword}${visibility.keyword}${returnType.signature} ${name}(${signature}) {
+		"	${overrideKeyword}${visibility.keyword}${typeCache.signature(returnType)} ${name}(${signature}) {
 		 		${indentBody}
 		 	}\n\n"
 		return code
