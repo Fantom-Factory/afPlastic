@@ -8,9 +8,9 @@
 
 *Plastic is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
-`Plastic` is a library for dynamically generating and compiling Fantom code.
+Plastic is a library for dynamically generating and compiling Fantom code.
 
-`Plastic` is the cornerstone of [IoC](http://www.fantomfactory.org/pods/afIoc) proxied services and [Embedded Fantom (efan)](http://www.fantomfactory.org/pods/afEfan) templates.
+Plastic is the cornerstone of [IoC](http://pods.fantomfactory.org/pods/afIoc) proxied services and [Embedded Fantom (efan)](http://pods.fantomfactory.org/pods/afEfan) templates.
 
 ## Install
 
@@ -20,11 +20,11 @@ Install `Plastic` with the Fantom Repository Manager ( [fanr](http://fantom.org/
 
 To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
 
-    depends = ["sys 1.0", ..., "afPlastic 1.0+"]
+    depends = ["sys 1.0", ..., "afPlastic 1.0"]
 
 ## Documentation
 
-Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afPlastic/).
+Full API & fandocs are available on the [Fantom Pod Repository](http://pods.fantomfactory.org/pods/afPlastic/).
 
 ## Quick Start
 
