@@ -5,6 +5,8 @@ using afBeanUtils
 ** 
 ** All types are generated with a standard serialisation ctor:
 ** 
+**   syntax: fantom
+** 
 **   new make(|This|? f := null) { f?.call(this) }
 ** 
 ** All added fields and methods will be public. As you will never compile against the generated 
@@ -199,6 +201,7 @@ class PlasticClassModel {
 	** 
 	** All types are generated with a standard serialisation ctor:
 	**
+	**   syntax: fantom
 	**   new make(|This|? f := null) { f?.call(this) }
 	Str toFantomCode() {
 		typeCache := TypeCache()
