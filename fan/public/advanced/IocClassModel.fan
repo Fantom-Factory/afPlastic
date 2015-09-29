@@ -1,5 +1,5 @@
 
-** A class to ensure future versions of afPlastic will be backwards compatible with afIoc. 
+** A class to ensure future versions of afPlastic will be backwards compatible with afIoc v2.x. 
 @NoDoc
 class IocClassModel {
 	

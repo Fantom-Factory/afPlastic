@@ -1,5 +1,6 @@
 using concurrent
-using afBeanUtils
+using afBeanUtils::BeanFactory
+using afBeanUtils::ReflectUtils
 
 ** Models a Fantom class.
 ** 
