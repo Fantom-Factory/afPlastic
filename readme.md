@@ -16,7 +16,7 @@ Plastic is the cornerstone of [IoC](http://pods.fantomfactory.org/pods/afIoc) pr
 
 Install `Plastic` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
 
-    C:\> fanr install -r http://repo.status302.com/fanr/ afPlastic
+    C:\> fanr install -r http://pods.fantomfactory.org/fanr/ afPlastic
 
 To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
 
