@@ -23,7 +23,7 @@ const class PlasticModule {
 				[
 					"serviceId"	: "afBedSheet::ErrPrinterHtml",
 					"key"		: "afPlastic.srcCodeErrs",
-					"build"		: #printSrcCodeErrsToHtml.func,
+					"value"		: #printSrcCodeErrsToHtml.func,
 					"before"	: "afBedSheet.iocOperationTrace",
 					"after"		: "afBedSheet.stackTrace"
 				]
