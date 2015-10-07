@@ -4,7 +4,7 @@ using compiler
 ** (Service) - 
 ** Compiles Fantom source code and afPlastic models into usable Fantom code.
 ** 
-** This class is available in IoC v3 as a service in the 'root' scope, with id 'afPlastic::PlasticCompiler'.
+** Note: This class is available in IoC v3 as a service under the 'root' scope, and with an ID of 'afPlastic::PlasticCompiler'.
 const class PlasticCompiler {
 	
 	** static because pods are shared throughout the JVM, not just the IoC 
