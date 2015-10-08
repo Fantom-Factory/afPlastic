@@ -16,16 +16,16 @@ const class PlasticModule {
 				[
 					"serviceId"	: "afBedSheet::ErrPrinterStr",
 					"key"		: "afPlastic.srcCodeErrs",
-					"value"		: #printSrcCodeErrsToStr.func,
-					"before"	: "afBedSheet.iocOperationTrace",
-					"after"		: "afBedSheet.stackTrace"
+					"value"		: #printSrcCodeErrsToStr.func.retype(|StrBuf, Err?|#),
+					"before"	: "afBedSheet.stackTrace",
+					"after"		: "afBedSheet.iocOperationTrace"
 				],
 				[
 					"serviceId"	: "afBedSheet::ErrPrinterHtml",
 					"key"		: "afPlastic.srcCodeErrs",
-					"value"		: #printSrcCodeErrsToHtml.func,
-					"before"	: "afBedSheet.iocOperationTrace",
-					"after"		: "afBedSheet.stackTrace"
+					"value"		: #printSrcCodeErrsToHtml.func.retype(|OutStream, Err?|#),
+					"before"	: "afBedSheet.stackTrace",
+					"after"		: "afBedSheet.iocOperationTrace"
 				]
 			]
 		]
