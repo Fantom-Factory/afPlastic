@@ -1,6 +1,10 @@
 Versions
 ********
 
+v1.0.20
+=======
+ - Chg: Added a non-invasive modules for use with [IoC v3]`pod:afIoc`.
+
 v1.0.18
 =======
  - Bug: Java types could not be used as fields or method return types. See BitBucket Issue: [Error using java class]`https://bitbucket.org/AlienFactory/afplastic/issue/1/error-using-java-class`
