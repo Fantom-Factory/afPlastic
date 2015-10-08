@@ -5,7 +5,7 @@ class Build : BuildPod {
 	new make() {
 		podName = "afPlastic"
 		summary = "A library for dynamically generating and compiling Fantom code"
-		version = Version("1.0.19")
+		version = Version("1.0.20")
 
 		meta = [	
 			"proj.name"		: "Plastic",
