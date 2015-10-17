@@ -3,7 +3,7 @@ Versions
 
 v1.0.20
 =======
- - Chg: Added a non-invasive modules for use with [IoC v3]`pod:afIoc`.
+ - Chg: Added a non-invasive module for use with [IoC v3]`pod:afIoc`.
 
 v1.0.18
 =======
