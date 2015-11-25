@@ -1,7 +1,7 @@
-#Plastic v1.0.20
+#Plastic v1.1.0
 ---
 [![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
-[![pod: v1.0.20](http://img.shields.io/badge/pod-v1.0.20-yellow.svg)](http://www.fantomfactory.org/pods/afPlastic)
+[![pod: v1.1.0](http://img.shields.io/badge/pod-v1.1.0-yellow.svg)](http://www.fantomfactory.org/pods/afPlastic)
 ![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
 
 ## Overview
@@ -20,7 +20,7 @@ Install `Plastic` with the Fantom Repository Manager ( [fanr](http://fantom.org/
 
 To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
 
-    depends = ["sys 1.0", ..., "afPlastic 1.0"]
+    depends = ["sys 1.0", ..., "afPlastic 1.1"]
 
 ## Documentation
 
