@@ -73,7 +73,7 @@ const class PlasticCompiler {
 
 		} catch (CompilerErr err) {
 			srcCode := SrcCodeSnippet(`${podName}`, fantomPodCode)
-			throw PlasticCompilationErr(srcCode, err.line, err.msg, srcCodePadding)
+			throw PlasticCompilationErr(srcCode, err.line ?: 1, err.msg, srcCodePadding)
 		}
 	}
 	
