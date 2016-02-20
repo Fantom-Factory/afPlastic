@@ -50,7 +50,7 @@ internal class TestPlasticClass : PlasticTest {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService14#)
 		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService14#obj, T_PlasticService14#obj.params.first)) |->| {
-			plasticModel.overrideMethod(T_PlasticService14#obj, "wotever")
+			plasticModel.overrideMethod(T_PlasticService14#obj, "wotever")			
 		}
 	}
 	
@@ -60,6 +60,15 @@ internal class TestPlasticClass : PlasticTest {
 		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService15#obj, T_PlasticService15#obj.params.first)) |->| {
 			plasticModel.overrideMethod(T_PlasticService15#obj, "wotever")
 		}
+	}
+	
+	Void testCanNotGuessDefaultParamValue3() {
+		plasticModel := PlasticClassModel("TestImpl", false)
+		plasticModel.extend(T_PlasticService18#)
+		plasticModel.overrideCtor(T_PlasticService18#makeStuff, "wotever")
+
+		meth := plasticModel.ctors.find { it.name == "makeStuff" }
+		verifyEq(meth.superCtor, """super.makeStuff(sys::Str judge := "Fred")""")
 	}
 	
 	Void testDefaultParamGuessing() {
@@ -200,4 +209,9 @@ mixin T_PlasticService16 {
 mixin T_PlasticService17 { 	
 	abstract jDate? getDate1()
 	abstract jDate? getDate2()
+}
+
+@NoDoc
+class T_PlasticService18 { 	
+	new makeStuff(Str judge := "Fred") { }
 }

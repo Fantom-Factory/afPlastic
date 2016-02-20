@@ -3,9 +3,12 @@ Versions
 
 v1.1.0
 ======
+ - New: Can override ctors.
  - Chg: Tweaked 'SrcCodeErr' and added 'linesOfPadding'. (Breaking change.)
  - Chg: Added a non-invasive module for use with [IoC v3]`pod:afIoc`.
  - Chg: Gave Plastic a dependency on 'compilerJava' so it ships with a default (and most common) FFI bridge.
+ - Chg: Ctors may call 'super' ctors.
+ - Chg: Guessing param defaults for method overrides now makes use of 'Method.paramDef(...)' from Fantom 1.0.68.
  - Bug: 'PlasticCompiler' could not wrap a 'CompilerErr' with a 'null' line number.
 
 v1.0.18

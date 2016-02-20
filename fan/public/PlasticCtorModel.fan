@@ -5,14 +5,16 @@ class PlasticCtorModel {
 	Str					name
 	Str					signature
 	Str					body
+	Str?				superCtor
 	PlasticFacetModel[]	facets		:= [,]
 	
 
-	internal new make(PlasticVisibility visibility, Str name, Str signature, Str body) {
+	internal new make(PlasticVisibility visibility, Str name, Str signature, Str body, Str? superCtor := null) {
 		this.visibility = visibility
 		this.name		= name
 		this.signature	= signature
 		this.body		= body
+		this.superCtor	= superCtor
 	}
 	
 	** Converts the model into Fantom source code.
@@ -20,7 +22,7 @@ class PlasticCtorModel {
 		code := ""
 		facets.each { code += "\t" + it.toFantomCode }
 		code +=
-		"	${visibility.keyword}new ${name}(${signature}) {
+		"	${visibility.keyword}new ${name}(${signature}) ${superCtorCode}{
 		 		${indentBody}
 		 	}\n\n"
 		return code
@@ -28,5 +30,9 @@ class PlasticCtorModel {
 	
 	private Str indentBody() {
 		body.splitLines.join("\n\t\t")
+	}
+	
+	private Str superCtorCode() {
+		superCtor == null ? "" : ": ${superCtor} "
 	}
 }
