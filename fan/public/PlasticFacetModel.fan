@@ -21,7 +21,7 @@ class PlasticFacetModel {
 			value := field.get(toClone)
 			// all facets are serializable 
 			// see http://fantom.org/doc/docLang/Facets.html#classes
-			sBuf.clear.out.writeObj(value)
+			sBuf.clear.out.writeObj(value).close
 			// Add cast for null values
 			// see http://fantom.org/sidewalk/topic/2320
 			params[field.name] = "(${field.type.signature}) ${sBuf.toStr}"

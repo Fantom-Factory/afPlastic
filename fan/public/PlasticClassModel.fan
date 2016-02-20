@@ -4,10 +4,9 @@ using afBeanUtils::ReflectUtils
 
 ** Models a Fantom class.
 ** 
-** All types are generated with a standard serialisation ctor:
+** If not defined already, types are generated with a standard it-block ctor:
 ** 
 **   syntax: fantom
-** 
 **   new make(|This|? f := null) { f?.call(this) }
 ** 
 ** All added fields and methods will be public. As you will never compile against the generated 
@@ -45,7 +44,6 @@ class PlasticClassModel {
 		this.fields		= [,]
 		this.methods	= [,]
 		this.ctors		= [,]
-		addCtor("make", "|This|? f := null", "f?.call(this)")
 	}
 
 	** 'use' the given pod.
@@ -161,7 +159,7 @@ class PlasticClassModel {
 		return methodModel
 	}
 
-	** Add a method.
+	** Override a method.
 	** The given method must exist in a super class / mixin.
 	** 'body' does not include {braces}
 	PlasticMethodModel overrideMethod(Method method, Str body) {
@@ -175,7 +173,7 @@ class PlasticClassModel {
 		params := method.params.map |param->Str| {
 			pSig := "${param.type.signature} ${param.name}"
 			if (param.hasDefault) {
-				def := guessDefault(param.type, param.name)
+				def := guessDefault(method, param)
 				if (def == null)
 					throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(method, param))
 				pSig += " := ${def}"
@@ -189,14 +187,42 @@ class PlasticClassModel {
 	}
 
 	** Add a ctor.
+	** 
 	** 'signature' does not include (brackets).
+	** 
 	** 'body' does not include {braces}
-	PlasticCtorModel addCtor(Str ctorName, Str signature, Str body) {
-		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctorName, signature, body)
+	** 
+	** 'superCtor' is the entire expression, 'super.make(in)'
+	PlasticCtorModel addCtor(Str ctorName, Str signature, Str body, Str? superCtor := null) {
+		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctorName, signature, body, superCtor)
 		ctors.add(ctorModel)
 		return ctorModel
 	}
 
+	** Override a ctor
+	** The given ctor method must exist in a super class / mixin.
+	** 'body' does not include {braces}
+	PlasticCtorModel overrideCtor(Method ctor, Str body) {
+		if (!extends.any { it.fits(ctor.parent) })
+			throw PlasticErr(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(ctor, extends))
+		if (ctor.isPrivate || ctor.isInternal)
+			throw PlasticErr(PlasticMsgs.overrideMethodHasWrongScope(ctor))
+		
+		params := ctor.params.map |param->Str| {
+			pSig := "${param.type.signature} ${param.name}"
+			if (param.hasDefault) {
+				def := guessDefault(ctor, param)
+				if (def == null)
+					throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(ctor, param))
+				pSig += " := ${def}"
+			}
+			return pSig
+		}.join(", ")
+		
+		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctor.name, params, body, "super.${ctor.name}(${params})")
+		ctors.add(ctorModel)
+		return ctorModel
+	}
 	
 	** Converts the model into Fantom source code.
 	** 
@@ -207,6 +233,10 @@ class PlasticClassModel {
 	Str toFantomCode() {
 		typeCache := TypeCache()
 
+		// add a useful default ctor if it doesn't exist
+		if (ctors.any { it.name == "make" }.not)
+			addCtor("make", "|This|? f := null", "f?.call(this)")
+		
 		code := ""
 
 		facets.each { code += it.toFantomCode }
@@ -229,28 +259,45 @@ class PlasticClassModel {
 		return code
 	}
 	
-	internal Str? guessDefault(Type type, Str name) {
+	internal Str? guessDefault(Method method, Param param) {
+		
+		if (method.isStatic || method.isCtor)
+			try {
+				// new in Fantom 1.0.68 !!!
+				def := method.paramDef(param)
+				if (def != null) {
+					toCode := ReflectUtils.findMethod(param.type, "toCode", null, false, Str#)
+					if (toCode != null)
+						return toCode.callOn(def, null)
+					if (def.typeof.hasFacet(Serializable#)) {
+						sBuf := StrBuf()
+						sBuf.clear.out.writeObj(def).close
+						return sBuf.toStr
+					}
+				}
+			} catch (Err e) { /* meh */ }
+		
 		// Special case for Bool checked
-		if (type == Bool# && name.equalsIgnoreCase("checked"))
+		if (param.type == Bool# && param.name.equalsIgnoreCase("checked"))
 			return true.toStr
 			
 		try {
 			// nullable values
-			defVal := BeanFactory.defaultValue(type)
+			defVal := BeanFactory.defaultValue(param.type)
 			if (defVal == null)
 				return "null"
 			
 			// types with a defVal and a toCode() method
-			toCode := ReflectUtils.findMethod(type, "toCode", null, false, Str#)
+			toCode := ReflectUtils.findMethod(param.type, "toCode", null, false, Str#)
 			if (toCode != null)
 				return toCode.callOn(defVal, null)
 		} catch 
 			return null
 			
 		// types with a default ctor 
-		ctor := ReflectUtils.findCtors(type)
+		ctor := ReflectUtils.findCtors(param.type)
 		if (ctor.size == 1)
-			return "${type.qname}()"
+			return "${param.type.qname}()"
 		
 		return null
 	}
