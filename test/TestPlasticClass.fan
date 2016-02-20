@@ -68,7 +68,8 @@ internal class TestPlasticClass : PlasticTest {
 		plasticModel.overrideCtor(T_PlasticService18#makeStuff, "wotever")
 
 		meth := plasticModel.ctors.find { it.name == "makeStuff" }
-		verifyEq(meth.superCtor, """super.makeStuff(sys::Str judge := "Fred")""")
+		verifyEq(meth.signature, "sys::Str judge := \"Fred\"")
+		verifyEq(meth.superCtor, """super.makeStuff(judge)""")
 	}
 	
 	Void testDefaultParamGuessing() {
