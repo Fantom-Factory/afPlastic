@@ -217,9 +217,12 @@ class PlasticClassModel {
 				pSig += " := ${def}"
 			}
 			return pSig
-		}.join(", ")
+		}
 		
-		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctor.name, params, body, "super.${ctor.name}(${params})")
+		paramSig := params.join(", ")
+		paramNom := ctor.params.map { it.name }.join(", ")
+		
+		ctorModel := PlasticCtorModel(PlasticVisibility.visPublic, ctor.name, paramSig, body, "super.${ctor.name}(${paramNom})")
 		ctors.add(ctorModel)
 		return ctorModel
 	}
