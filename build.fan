@@ -25,7 +25,7 @@ class Build : BuildPod {
 			"afBeanUtils  1.0.8  - 1.0"
 		]
 
-		srcDirs = [`fan/`, `fan/internal/`, `fan/internal/utils/`, `fan/public/`, `fan/public/advanced/`, `test/`]
+		srcDirs = [`fan/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
 		resDirs = [`doc/`]
 	}
 }
