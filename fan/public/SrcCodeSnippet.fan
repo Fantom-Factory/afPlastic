@@ -36,7 +36,7 @@ const class SrcCodeSnippet {
 	Int:Str srcCodeSnippetMap(Int lineNo, Int linesOfPadding := 5) {
 		min := (lineNo - 1 - linesOfPadding).max(0)	// -1 so "Line 1" == src[0]
 		max := (lineNo - 1 + linesOfPadding + 1).min(srcCode.size)
-		lines := Utils.makeMap(Int#, Str#)
+		lines := Int:Str[:] { it.ordered = true }
 		(min..<max).each { lines[it+1] = srcCode[it] }
 		
 		// uniformly remove extra whitespace 
