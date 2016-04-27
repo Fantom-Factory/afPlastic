@@ -39,7 +39,7 @@ class PlasticMethodModel {
 			code.add(it)
 			code.add("\n\t\t")
 		}
-		code.remove(-1)
+		code.remove(-1).remove(-1).remove(-1)
 		code.add("\n\t}\n\n")
 
 		return code.toStr
