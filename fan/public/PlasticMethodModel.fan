@@ -20,18 +20,29 @@ class PlasticMethodModel {
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode(TypeCache typeCache) {
-		code := ""
-		facets.each { code += "\t" + it.toFantomCode }
+		code := StrBuf()
+		facets.each { code.addChar('\t').add(it.toFantomCode) }
 		overrideKeyword	:= isOverride ? "override " : ""
-		code +=
-		"	${overrideKeyword}${visibility.keyword}${typeCache.signature(returnType)} ${name}(${signature}) {
-		 		${indentBody}
-		 	}\n\n"
-		return code
-	}
-	
-	private Str indentBody() {
-		body.splitLines.join("\n\t\t")
+		
+		code.addChar('\t')
+		code.add(overrideKeyword)
+		code.add(visibility.keyword)
+		code.add(typeCache.signature(returnType))
+		code.addChar(' ')
+		code.add(name)
+		code.addChar('(')
+		code.add(signature)
+		code.add(") {\n\t\t")
+		
+		// indent body
+		body.splitLines.each {
+			code.add(it)
+			code.add("\n\t\t")
+		}
+		code.remove(-1)
+		code.add("\n\t}\n\n")
+
+		return code.toStr
 	}
 }
 

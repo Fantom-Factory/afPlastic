@@ -19,13 +19,23 @@ class PlasticCtorModel {
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode() {
-		code := ""
-		facets.each { code += "\t" + it.toFantomCode }
-		code +=
-		"	${visibility.keyword}new ${name}(${signature}) ${superCtorCode}{
-		 		${indentBody}
-		 	}\n\n"
-		return code
+		code := StrBuf()
+		facets.each { code.addChar('\t').add(it.toFantomCode) }
+		
+		code.addChar('\t')
+		code.add(visibility.keyword)
+		code.add("new ")
+		code.add(name)
+		code.addChar('(')
+		code.add(signature)
+		code.addChar(')')
+		code.addChar(' ')
+		code.add(superCtorCode)
+		code.add("{\n\t\t")
+		code.add(indentBody)
+		code.add("\n\t}\n\n")
+
+		return code.toStr
 	}
 	
 	private Str indentBody() {
