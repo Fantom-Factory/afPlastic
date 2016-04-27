@@ -30,9 +30,15 @@ class PlasticFacetModel {
 
 	** Converts the model into Fantom source code.
 	Str toFantomCode() {
-		pCode	:= ""
+		pCode	:= StrBuf()
 		if (!params.isEmpty) {
-			pCode = " {" + params.join("; ") |v, k->Str| { "$k=$v" } + "}"
+			params.each |v, k| {
+				pCode.join(k, "; ")
+				pCode.addChar('=')
+				pCode.add(v)
+			}
+			pCode.insert(0, " {")
+			pCode.addChar('}')
 		}
 		
 		code 	:= "@${type.qname}${pCode}\n"

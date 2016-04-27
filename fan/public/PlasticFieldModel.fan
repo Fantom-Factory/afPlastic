@@ -40,25 +40,39 @@ class PlasticFieldModel {
 	
 	** Converts the model into Fantom source code.
 	Str toFantomCode(TypeCache typeCache) {
-		field := ""
-		facets.each { field += "\t" + it.toFantomCode }
+		field := StrBuf()
+		facets.each { field.addChar('\t').add(it.toFantomCode) }
 		overrideKeyword	:= isOverride ? "override " : ""
 		// fields can not be const if they have a getter - see afEfan::EfanCompiler._af_eval
-		constKeyword	:= (isConst && getBody == null) ? "const " : "" 
-		field +=
-		"	${overrideKeyword}${visibility.keyword}${constKeyword}${typeCache.signature(type)} ${name}"
-		if (initValue != null)
-			field += " := ${initValue}"
-		if (getBody != null || setBody != null) {
-			field += " {\n"
-			if (getBody != null)
-				field += "		get { ${getBody} }\n"
-			if (setBody != null)
-				field += "		set { ${setBody} }\n"
-			field += "	}"
+		constKeyword	:= (isConst && getBody == null) ? "const " : ""
+		field.addChar('\t')
+		field.add(overrideKeyword)
+		field.add(visibility.keyword)
+		field.add(constKeyword)
+		field.add(typeCache.signature(type))
+		field.addChar(' ')
+		field.add(name)
+		
+		if (initValue != null) {
+			field.add(" := ")
+			field.add(initValue)
 		}
-		field += "\n\n"
-		return field
+		if (getBody != null || setBody != null) {
+			field.add(" {\n")
+			if (getBody != null) {
+				field.add("\t\tget { ")
+				field.add(getBody)
+				field.add(" }\n")
+			}
+			if (setBody != null) {
+				field.add("\t\tset { ")
+				field.add(setBody)
+				field.add(" }\n")				
+			}
+			field.addChar('\t').addChar('}')
+		}
+		field.addChar('\n').addChar('\n')
+		return field.toStr
 	}
 }
 

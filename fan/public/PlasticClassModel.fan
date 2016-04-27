@@ -240,26 +240,26 @@ class PlasticClassModel {
 		if (ctors.any { it.name == "make" }.not)
 			addCtor("make", "|This|? f := null", "f?.call(this)")
 		
-		code := ""
+		code := StrBuf()
 
-		facets.each { code += it.toFantomCode }
+		facets.each { code.add(it.toFantomCode) }
 		
 		constKeyword 	:= isConst ? "const " : ""
 		extendsKeyword	:= extends.exclude { it == Obj#}.isEmpty ? "" : " : " + extends.unique.exclude { it == Obj#}.map { it.qname }.join(", ") 
 		
-		code += "${constKeyword}class ${className}${extendsKeyword} {\n\n"
-			fields	.each { code += it.toFantomCode(typeCache) }
-			ctors	.each { code += it.toFantomCode }
-			methods	.each { code += it.toFantomCode(typeCache) }
-		code += "}\n"
+		code.add("${constKeyword}class ${className}${extendsKeyword} {\n\n")
+			fields	.each { code.add(it.toFantomCode(typeCache)) }
+			ctors	.each { code.add(it.toFantomCode) }
+			methods	.each { code.add(it.toFantomCode(typeCache)) }
+		code.add("}\n")
 
 		typeCache.addTo(usings)
-		useStr := ""
-		usings.unique.each { useStr += it.toFantomCode }
-		useStr += "\n"
+		useStr := StrBuf()
+		usings.unique.each { useStr.add(it.toFantomCode) }
+		useStr.addChar('\n')
 
-		code = useStr + code
-		return code
+		code.insert(0, useStr.toStr)
+		return code.toStr
 	}
 	
 	internal Str? guessDefault(Method method, Param param) {
