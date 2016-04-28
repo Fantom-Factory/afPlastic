@@ -1,5 +1,8 @@
 Versions
 ********
+v1.1.2
+======
+ - Chg: Made better use of 'StrBufs' when generating Fantom code.
 
 v1.1.0
 ======
