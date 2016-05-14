@@ -34,6 +34,8 @@ const class SrcCodeSnippet {
 
 	** Returns a snippet of source code, centred on 'lineNo' and padded on either side by an 
 	** extra 'linesOfPadding'.
+	** 
+	** Note that 'lineNo' is ONE based, not zero.
 	Str srcCodeSnippet(Int lineNo, Str? msg := null, Int linesOfPadding := 5) {
 		buf := StrBuf()
 		buf.add("  ${srcCodeLocation}").add(" : Line ${lineNo}\n")
@@ -51,6 +53,8 @@ const class SrcCodeSnippet {
 
 	** Returns a map of line numbers to source code, centred on 'lineNo' and padded on either 
 	** side by an extra 'linesOfPadding'.
+	** 
+	** Note that 'lineNo' is ONE based, not zero.
 	Int:Str srcCodeSnippetMap(Int lineNo, Int linesOfPadding := 5) {
 		min := (lineNo - 1 - linesOfPadding).max(0)	// -1 so "Line 1" == src[0]
 		max := (lineNo - 1 + linesOfPadding + 1).min(srcCode.size)
