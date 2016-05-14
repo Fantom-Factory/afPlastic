@@ -1,5 +1,22 @@
 
-** Generates snippets of source code, often used to report errors.
+** Generates snippets of source code, often used to report errors. Example:
+** 
+** pre>
+** file:/C:/test/app/compilationErr.moustache : Line 11
+**     - Unbalanced "{" in tag "{ alienHeadSvg }  <span class="brand">{{ title"
+** 
+**      6:         {{{ bedSheetCss }}}
+**      7:     </style>
+**      8: </head>
+**      9: <body>
+**     10:     <header>
+** ==> 11:         {{{ alienHeadSvg }
+**     12:         <span class="brand">{{ title }}</span>
+**     13:     </header>
+**     14:
+**     15:     <main>
+**     16:         {{{ content }}}
+** <pre
 const class SrcCodeSnippet {
 	
 	** An arbitrary uri of where the source code originated from. 
@@ -8,7 +25,8 @@ const class SrcCodeSnippet {
 	** A list of source code lines.
 	const Str[]	srcCode
 
-	** Creates a SrcCodeSnippet.
+	** Creates a SrcCodeSnippet. 
+	** The srcCodeLocation URI may be anything as it is only used for reporting. 
 	new make(Uri srcCodeLocation, Str srcCode) {
 		this.srcCodeLocation= srcCodeLocation
 		this.srcCode		= srcCode.splitLines
