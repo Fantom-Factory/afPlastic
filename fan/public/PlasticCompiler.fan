@@ -49,7 +49,9 @@ const class PlasticCompiler {
 	
 	** Compiles the given Fantom code into a pod. 
 	** If no pod name is given, a unique one will be generated.
-	Pod compileCode(Str fantomPodCode, Str? podName := null) {
+	** 
+	** 'srcCodeLocation' is just used to report errors. If not given, the 'podName' is used.
+	Pod compileCode(Str fantomPodCode, Str? podName := null, Uri? srcCodeLocation := null ) {
 		podName = podName ?: generatePodName
 
 		if (Pod.of(this).log.isDebug)
@@ -72,7 +74,7 @@ const class PlasticCompiler {
 			return pod		
 
 		} catch (CompilerErr err) {
-			srcCode := SrcCodeSnippet(`${podName}`, fantomPodCode)
+			srcCode := SrcCodeSnippet(srcCodeLocation ?: podName.toUri, fantomPodCode)
 			throw PlasticCompilationErr(srcCode, err.line ?: 1, err.msg, srcCodePadding)
 		}
 	}
