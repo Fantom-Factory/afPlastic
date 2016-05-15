@@ -63,6 +63,8 @@ const class PlasticCompiler {
 	** 'srcCodeLocation' is just used to report errors. If not given, the 'podName' is used.
 	** 
 	** Note the returned file is deemed to be transient, so is deleted on exit.
+	** 
+	** Note: Fantom 1.0.68 needs [this patch]`http://fantom.org/forum/topic/2536` in order to work.
 	File compileCodeToPodFile(Str fantomPodCode, Str? podName := null, Uri? srcCodeLocation := null ) {
 		input 		    	:= CompilerInput()
 		input.output 		= CompilerOutputMode.podFile
