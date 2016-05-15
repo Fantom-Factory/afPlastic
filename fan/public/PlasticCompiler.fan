@@ -52,31 +52,24 @@ const class PlasticCompiler {
 	** 
 	** 'srcCodeLocation' is just used to report errors. If not given, the 'podName' is used.
 	Pod compileCode(Str fantomPodCode, Str? podName := null, Uri? srcCodeLocation := null ) {
-		podName = podName ?: generatePodName
-
-		if (Pod.of(this).log.isDebug)
-			Pod.of(this).log.debug("Compiling code for pod: ${podName}\n${fantomPodCode}")
-		
-		try {
-			input 		    := CompilerInput()
-			input.podName 	= podName
-	 		input.summary 	= "Alien-Factory Transient Pod"
-			input.version 	= Version.defVal
-			input.log.level = LogLevel.silent	// we'll raise our own Errs - less noise to std.out
-			input.isScript 	= true
-			input.output 	= CompilerOutputMode.transientPod
-			input.mode 		= CompilerInputMode.str
-			input.srcStrLoc	= Loc(podName)
-			input.srcStr 	= fantomPodCode
+		input 		    := CompilerInput()
+		input.output 	= CompilerOutputMode.transientPod
+		return compile(input, fantomPodCode, podName, srcCodeLocation).transientPod
+	}
 	
-			compiler 		:= Compiler(input)
-			pod 			:= compiler.compile.transientPod
-			return pod		
-
-		} catch (CompilerErr err) {
-			srcCode := SrcCodeSnippet(srcCodeLocation ?: podName.toUri, fantomPodCode)
-			throw PlasticCompilationErr(srcCode, err.line ?: 1, err.msg, srcCodePadding)
-		}
+	** Compiles the given Fantom code into a pod file. 
+	** If no pod name is given, a unique one will be generated.
+	** 
+	** 'srcCodeLocation' is just used to report errors. If not given, the 'podName' is used.
+	** 
+	** Note the returned file is deemed to be transient, so is deleted on exit.
+	File compileCodeToPodFile(Str fantomPodCode, Str? podName := null, Uri? srcCodeLocation := null ) {
+		input 		    	:= CompilerInput()
+		input.output 		= CompilerOutputMode.podFile
+		input.outDir		= Env.cur.tempDir
+		input.includeDoc	= true
+		input.includeSrc	= true
+		return compile(input, fantomPodCode, podName, srcCodeLocation).podFile.deleteOnExit
 	}
 	
 	** Different pod names prevents "sys::Err: Duplicate pod name: <podName>".
@@ -84,6 +77,32 @@ const class PlasticCompiler {
 	Str generatePodName() {
 		index := podIndex.getAndIncrement.toStr.padl(3, '0')		
 		return "afPlastic${index}"
+	}
+	
+	private CompilerOutput compile(CompilerInput input, Str fantomPodCode, Str? podName, Uri? srcCodeLocation) {
+		podName = podName ?: generatePodName
+
+		if (Pod.of(this).log.isDebug)
+			Pod.of(this).log.debug("Compiling code for pod: ${podName}\n${fantomPodCode}")
+
+		try {
+			input.podName 	= podName
+			input.summary 	= "Dynamic Pod compiled by Alien-Factory Plastic"
+			input.version 	= Version.defVal
+			input.log.level = LogLevel.silent	// we'll raise our own Errs - less noise to std.out
+			input.isScript 	= true
+			input.mode 		= CompilerInputMode.str
+			input.srcStrLoc	= Loc(podName)
+			input.srcStr 	= fantomPodCode
+
+			compiler 		:= Compiler(input)
+			output 			:= compiler.compile
+			return output
+
+		} catch (CompilerErr err) {
+			srcCode := SrcCodeSnippet(srcCodeLocation ?: podName.toUri, fantomPodCode)
+			throw PlasticCompilationErr(srcCode, err.line ?: 1, err.msg, srcCodePadding)
+		}
 	}
 }
 
