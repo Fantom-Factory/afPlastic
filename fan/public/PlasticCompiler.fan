@@ -14,12 +14,21 @@ const class PlasticCompiler {
 	** code the erroneous line should be padded with. 
 	** 
 	** Value is mutable. Defaults to '5'.  
-	public Int 	srcCodePadding {
+	Int srcCodePadding {
 		get { _srcCodePadding.val }
 		set { _srcCodePadding.val = it }
 	}
-	
 	private const AtomicInt _srcCodePadding	:= AtomicInt(5)
+	
+	** The base name used to generate pod names. 
+	** This name may overridden when compiling src.
+	** 
+	** Defaults to 'afPlastic' so pods will be named 'afPlasticXXX'.
+	Str podBaseName {
+		get { _podBaseName.val }
+		set { _podBaseName.val = it }		
+	}	
+	private const AtomicRef _podBaseName	:= AtomicRef("afPlastic")
 
 	** Creates a 'PlasticCompiler'.
 	new make(|This|? in := null) { in?.call(this) }
@@ -69,8 +78,12 @@ const class PlasticCompiler {
 		input 		    	:= CompilerInput()
 		input.output 		= CompilerOutputMode.podFile
 		input.outDir		= Env.cur.tempDir
+		// yes please! Generate .apidocs for us!
 		input.includeDoc	= true
-		input.includeSrc	= true
+		// if true, then actual src FILES are looked for
+		input.includeSrc	= false
+		// just needs to be not-null - compiler::WritePod.writePodDocs() looks for .fandoc files
+		input.baseDir		= Env.cur.tempDir
 		return compile(input, fantomPodCode, podName, srcCodeLocation).podFile.deleteOnExit
 	}
 	
@@ -78,7 +91,7 @@ const class PlasticCompiler {
 	** We internalise podName so we can guarantee no duplicate pod names
 	Str generatePodName() {
 		index := podIndex.getAndIncrement.toStr.padl(3, '0')		
-		return "afPlastic${index}"
+		return "${podBaseName}${index}"
 	}
 	
 	private CompilerOutput compile(CompilerInput input, Str fantomPodCode, Str? podName, Uri? srcCodeLocation) {
