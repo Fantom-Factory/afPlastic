@@ -2,7 +2,8 @@ Versions
 ********
 v1.1.2
 ======
- - New: 'PlasticCompile.compileCodeToPodFile()' creates pod files.
+ - New: 'PlasticCompiler.compileCodeToPodFile()' creates pod files.
+ - New: 'PlasticCompiler.podBaseName' field for default pod names.
  - New: 'PlasticCompiler.compileCode()' now takes an optional 'srcCodeLocation' parameter.
  - Chg: Made better use of 'StrBufs' when generating Fantom code.
 
