@@ -1,4 +1,3 @@
-using concurrent
 using afBeanUtils::BeanFactory
 using afBeanUtils::ReflectUtils
 
