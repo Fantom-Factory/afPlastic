@@ -18,7 +18,7 @@ class Build : BuildPod {
 		depends = [
 			"sys          1.0.68 - 1.0", 
 			"concurrent   1.0.68 - 1.0", 
-			"compiler     1.0.68 - 1.0",
+			"compiler     1.0.68 - 1.0",	// for AtomicInt to keep a JVM unique pod name 
 			"compilerJava 1.0.68 - 1.0",
 			
 			// ---- Core ----
