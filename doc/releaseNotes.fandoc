@@ -1,5 +1,10 @@
-Versions
-********
+v1.1
+****
+
+v1.1.4
+======
+  - New: 'afPlastic' now available as a SkySpark extension.
+
 v1.1.2
 ======
  - New: 'PlasticCompiler.compileCodeToPodFile()' creates pod files.
@@ -16,6 +21,11 @@ v1.1.0
  - Chg: Ctors may call 'super' ctors.
  - Chg: Guessing param defaults for method overrides now makes use of 'Method.paramDef(...)' from Fantom 1.0.68.
  - Bug: 'PlasticCompiler' could not wrap a 'CompilerErr' with a 'null' line number.
+
+
+
+v1.0
+****
 
 v1.0.18
 =======

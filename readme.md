@@ -1,8 +1,9 @@
-#Plastic v1.1.2
+# Plastic v1.1.4
 ---
-[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
-[![pod: v1.1.2](http://img.shields.io/badge/pod-v1.1.2-yellow.svg)](http://www.fantomfactory.org/pods/afPlastic)
-![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
+
+[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom-lang.org/)
+[![pod: v1.1.4](http://img.shields.io/badge/pod-v1.1.4-yellow.svg)](http://eggbox.fantomfactory.org/pods/afPlastic)
+[![Licence: ISC](http://img.shields.io/badge/licence-ISC-blue.svg)](https://choosealicense.com/licenses/isc/)
 
 ## Overview
 
@@ -10,21 +11,25 @@
 
 Plastic is a library for dynamically generating and compiling Fantom code.
 
-Plastic is the cornerstone of [IoC](http://pods.fantomfactory.org/pods/afIoc) proxied services and [Embedded Fantom (efan)](http://pods.fantomfactory.org/pods/afEfan) templates.
+Plastic is the cornerstone of [IoC](http://eggbox.fantomfactory.org/pods/afIoc) proxied services and [Embedded Fantom (efan)](http://eggbox.fantomfactory.org/pods/afEfan) templates.
 
 ## Install
 
-Install `Plastic` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
+Install `Plastic` with the Fantom Pod Manager ( [FPM](http://eggbox.fantomfactory.org/pods/afFpm) ):
 
-    C:\> fanr install -r http://pods.fantomfactory.org/fanr/ afPlastic
+    C:\> fpm install afPlastic
 
-To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
+Or install `Plastic` with [fanr](http://fantom.org/doc/docFanr/Tool.html#install):
+
+    C:\> fanr install -r http://eggbox.fantomfactory.org/fanr/ afPlastic
+
+To use in a [Fantom](http://fantom-lang.org/) project, add a dependency to `build.fan`:
 
     depends = ["sys 1.0", ..., "afPlastic 1.1"]
 
 ## Documentation
 
-Full API & fandocs are available on the [Fantom Pod Repository](http://pods.fantomfactory.org/pods/afPlastic/).
+Full API & fandocs are available on the [Eggbox](http://eggbox.fantomfactory.org/pods/afPlastic/) - the Fantom Pod Repository.
 
 ## Quick Start
 
