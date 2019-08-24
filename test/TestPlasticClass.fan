@@ -11,8 +11,10 @@ internal class TestPlasticClass : PlasticTest {
 
 	Void testConstProxyCannotOverrideNonConst() {
 		plasticModel := PlasticClassModel("TestImpl", true)
-		verifyPlasticErrMsg(PlasticMsgs.constTypeCannotSubclassNonConstType("TestImpl", T_PlasticService02#)) |->| {
-			plasticModel.extend(T_PlasticService02#)
+		verifyPlasticErrMsg("Can not set Supertype to afPlastic::T_PlasticService08, it is already set to afPlastic::T_PlasticService04") |->| {
+			plasticModel.extend(T_PlasticService04#)
+			plasticModel.extend(T_PlasticService04#)	// extending the same class is okay
+			plasticModel.extend(T_PlasticService08#)
 		}
 	}
 

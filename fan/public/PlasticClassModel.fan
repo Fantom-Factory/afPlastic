@@ -1,4 +1,4 @@
-using afBeanUtils::BeanFactory
+using afBeanUtils::BeanBuilder
 using afBeanUtils::ReflectUtils
 
 ** Models a Fantom class.
@@ -82,14 +82,17 @@ class PlasticClassModel {
 	** 
 	** The type must be public.
 	This extend(Type type) {
-		if (isConst && !type.isConst)
-			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, type))
+		// this is actually fine - const classes CAN extend non-const mixins 
+//		if (isConst && !type.isConst)
+//			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, type))
 		if (!isConst && type.isConst)
 			throw PlasticErr(PlasticMsgs.nonConstTypeCannotSubclassConstType(className, type))
 		if (type.isInternal)
 			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, type))
 		
 		if (type.isClass) {
+			if (superClass != Obj# && superClass != type)
+				throw PlasticErr("Can not set Supertype to ${type.qname}, it is already set to ${superClass.qname}")
 			superClass = type
 		}
 
@@ -285,7 +288,7 @@ class PlasticClassModel {
 			
 		try {
 			// nullable values
-			defVal := BeanFactory.defaultValue(param.type)
+			defVal := BeanBuilder.defVal(param.type)
 			if (defVal == null)
 				return "null"
 			
