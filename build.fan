@@ -5,7 +5,7 @@ class Build : BuildPod {
 	new make() {
 		podName = "afPlastic"
 		summary = "A library for dynamically generating and compiling Fantom code"
-		version = Version("1.1.4")
+		version = Version("1.1.5")
 
 		meta = [	
 			"pod.dis"		: "Plastic",
@@ -32,7 +32,7 @@ class Build : BuildPod {
 			"compilerJava 1.0.68 - 1.0",
 			
 			// ---- Core ----
-			"afBeanUtils  1.0.8  - 1.0"
+			"afBeanUtils  1.0.10  - 1.0"
 		]
 
 		srcDirs = [`fan/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
