@@ -22,7 +22,6 @@ class PlasticFieldModel {
 	}
 	
 	This withInitValue(Str initValue) {
-		// TODO: check get & set are null
 		this.initValue = initValue
 		return this
 	}

@@ -239,9 +239,9 @@ class PlasticClassModel {
 		typeCache := TypeCache()
 
 		// add a useful default ctor if it doesn't exist
-		if (ctors.any { it.name == "make" }.not)
+		if (superClass == Obj# && ctors.any { it.name == "make" }.not)
 			addCtor("make", "|This|? f := null", "f?.call(this)")
-		
+
 		code := StrBuf()
 
 		facets.each { code.add(it.toFantomCode) }
