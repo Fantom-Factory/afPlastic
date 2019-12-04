@@ -1,10 +1,13 @@
 v1.1
 ****
 
+v1.1.6
+======
+ - Chg: A default it-block ctor is not added if class has a superclass.
+
 v1.1.4
 ======
-  - New: 'afPlastic' now available as a SkySpark extension.
-  - Chg: A default it-block ctor is not added if class has a superclass.
+ - New: 'afPlastic' now available as a SkySpark extension.
 
 v1.1.2
 ======
