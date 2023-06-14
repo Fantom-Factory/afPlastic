@@ -1,6 +1,7 @@
 
+** (Nabbed from BeanUtils)
 ** Static methods for creating Fantom objects. Don't 'make()' your beans, 'build()' them instead! 
-@Js mixin BeanBuilder {
+internal mixin BeanBuilder {
 	
 	** Creates an instance of the given type, using the most appropriate ctor for the given args.
 	** Ctors with *it-blocks* are always favoured over ctors without.

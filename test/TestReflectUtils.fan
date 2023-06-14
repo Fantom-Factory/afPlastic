@@ -1,6 +1,5 @@
 
 ** Paradox :: Just what is 'Void?'?
-@Js
 internal class TestReflectUtils : Test {
 
 	Void testFindField() {
@@ -235,8 +234,6 @@ internal class TestReflectUtils : Test {
 	}
 }
  
-
-@Js
 internal class MyReflectTestUtils1 {
 	virtual Int int
 	Obj obj	:= 4
@@ -244,7 +241,6 @@ internal class MyReflectTestUtils1 {
 	new makeCtor1() { }
 }
 
-@Js
 internal class MyReflectTestUtils2 : MyReflectTestUtils1 { 
 	override Int int := 6
 	

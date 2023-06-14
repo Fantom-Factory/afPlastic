@@ -1,7 +1,7 @@
 
+** (Nabbed from BeanUtils)
 ** Static methods for finding fields, methods and ctors that match given parameter types.
-@Js
-class ReflectUtils {
+internal class ReflectUtils {
 
 	** Finds a named field.
 	** 

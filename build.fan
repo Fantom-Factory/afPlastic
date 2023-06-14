@@ -32,7 +32,7 @@ class Build : BuildPod {
 			"compilerJava 1.0.68 - 1.0",
 		]
 
-		srcDirs = [`fan/`, `fan/beanUtils/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
+		srcDirs = [`fan/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
 		resDirs = [`doc/`, `svg/`]
 	}
 }
