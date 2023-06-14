@@ -1,13 +1,13 @@
-# Plastic v1.1.6
+# Plastic v1.1.8
 ---
 
 [![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](https://fantom-lang.org/)
-[![pod: v1.1.6](http://img.shields.io/badge/pod-v1.1.6-yellow.svg)](http://eggbox.fantomfactory.org/pods/afPlastic)
+[![pod: v1.1.8](http://img.shields.io/badge/pod-v1.1.8-yellow.svg)](http://eggbox.fantomfactory.org/pods/afPlastic)
 [![Licence: ISC](http://img.shields.io/badge/licence-ISC-blue.svg)](https://choosealicense.com/licenses/isc/)
 
 ## Overview
 
-*Plastic is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
+*Plastic is a support library that aids Fantom-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
 Plastic is a library for dynamically generating and compiling Fantom code.
 
