@@ -7,7 +7,6 @@ class PlasticCtorModel {
 	Str					body
 	Str?				superCtor
 	PlasticFacetModel[]	facets		:= [,]
-	
 
 	internal new make(PlasticVisibility visibility, Str name, Str signature, Str body, Str? superCtor := null) {
 		this.visibility = visibility
@@ -45,4 +44,6 @@ class PlasticCtorModel {
 	private Str superCtorCode() {
 		superCtor == null ? "" : ": ${superCtor} "
 	}
+
+	@NoDoc override Str toStr() { toFantomCode }
 }

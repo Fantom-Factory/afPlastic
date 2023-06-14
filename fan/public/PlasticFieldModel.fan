@@ -73,5 +73,7 @@ class PlasticFieldModel {
 		field.addChar('\n').addChar('\n')
 		return field.toStr
 	}
+
+	@NoDoc override Str toStr() { toFantomCode(TypeCache()) }
 }
 

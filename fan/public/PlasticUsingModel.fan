@@ -24,10 +24,17 @@ class PlasticUsingModel {
 		"using ${usingStr}\n"
 	}
 	
+	@NoDoc
+	override Str toStr() {
+		toFantomCode
+	}
+
+	@NoDoc
 	override Bool equals(Obj? that) {
 		(that as PlasticUsingModel)?.usingStr?.lower == usingStr.lower
 	}
 
+	@NoDoc
 	override Int hash() {
 		usingStr.lower.hash
 	}

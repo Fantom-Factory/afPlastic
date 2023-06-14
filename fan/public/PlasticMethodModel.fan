@@ -44,5 +44,7 @@ class PlasticMethodModel {
 
 		return code.toStr
 	}
+	
+	@NoDoc override Str toStr() { toFantomCode(TypeCache()) }
 }
 

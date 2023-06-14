@@ -76,6 +76,7 @@ const class SrcCodeSnippet {
 		lines.each |val, key| { lines[key] = val[1..-1]  }
 	}
 	
+	@NoDoc
 	override Str toStr() {
 		"${srcCodeLocation} : ${srcCode.size} lines"
 	}

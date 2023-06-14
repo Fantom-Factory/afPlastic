@@ -44,4 +44,6 @@ class PlasticFacetModel {
 		code 	:= "@${type.qname}${pCode}\n"
 		return code
 	}
+
+	@NoDoc override Str toStr() { toFantomCode }
 }
