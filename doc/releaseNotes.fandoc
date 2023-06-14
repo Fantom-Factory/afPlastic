@@ -10,7 +10,7 @@ v1.1.6 [#v1.1.6]
 ======
  - Chg: A default it-block ctor is not added if class has a superclass.
 
-v1.1.4 [#v1.1.4
+v1.1.4 [#v1.1.4]
 ======
  - New: 'afPlastic' now available as a SkySpark extension.
 
@@ -21,7 +21,7 @@ v1.1.2 [#v1.1.2]
  - New: 'PlasticCompiler.compileCode()' now takes an optional 'srcCodeLocation' parameter.
  - Chg: Made better use of 'StrBufs' when generating Fantom code.
 
-v1.1.0 [#v1.1.0
+v1.1.0 [#v1.1.0]
 ======
  - New: Can override ctors.
  - Chg: Tweaked 'SrcCodeErr' and added 'linesOfPadding'. (Breaking change.)
@@ -33,7 +33,7 @@ v1.1.0 [#v1.1.0
 
 
 
-v1.0 [#v1.0
+v1.0 [#v1.0]
 ****
 
 v1.0.18 [#v1.0.18]
@@ -41,23 +41,23 @@ v1.0.18 [#v1.0.18]
  - Bug: Java types could not be used as fields or method return types. See BitBucket Issue: [Error using java class]`https://bitbucket.org/AlienFactory/afplastic/issue/1/error-using-java-class`
  - Bug: Fields could not have 'get' and 'set' bodies with an initial value.
 
-v1.0.16 [#v1.0.16
+v1.0.16 [#v1.0.16]
 =======
  - Bug: Fix for null values in facets. See [Compilation Err when using Facet with null value]`http://fantom.org/sidewalk/topic/2320`.
 
-v1.0.14 [#v1.0.14
+v1.0.14 [#v1.0.14]
 =======
  - New: 'Plastic' now attempts to guess the default values for overridden methods.
  - New: Compiled Pod code is logged at debug level.
  - Chg: Now depends on [Bean Utils]`pod:afBeanUtils` for guessing the default values.
 
-v1.0.12 [#v1.0.12
+v1.0.12 [#v1.0.12]
 =======
  - New: Added 'PlasticCompiler.compileModels()' for compiling multiple models at once.
  - Chg: Deprecated 'PlasticClassModel.extendClass()' and 'PlasticClassModel.extendMixin()' in favour of a single 'extend()' method.
  - Chg: Exposed the lists in 'PlasticClassModel'.
 
-v1.0.10 [#v1.0.10
+v1.0.10 [#v1.0.10]
 =======
  - New: Added 'PlasticUsingModel'.
 
@@ -65,19 +65,19 @@ v1.0.8 [#v1.0.8]
 ======
  - Chg: 'PlasticClassModel.mixins' only returns the lowest subclass mixins - see [Mixin Inheritance Order ]`http://fantom.org/sidewalk/topic/2216` Bug.
 
-v1.0.6 [#v1.0.6
+v1.0.6 [#v1.0.6]
 ======
  - New: Added 'PlasticFacetModel' to classes, ctors, methods and fields.
  - New: Added 'PlasticClassModel.hasField(Str name)'
 
-v1.0.4 [#v1.0.4
+v1.0.4 [#v1.0.4]
 ======
  - New: Fields can have init values.
  - Chg: the 'PlasticClassModel' add methods now return sub-model classes.
  - Chg: Fantom compilation is silent to reduce noise on std out. We raise afPlastic Errs in event of a compilation failure.
  - Bug: Fields can not be const if they have a getter.
 
-v1.0.2 [#v1.0.2
+v1.0.2 [#v1.0.2]
 ======
  - New: Added ctor models.
  - New: Updates to ensure backwards compatibility with [IoC]`pod:afIoc`.
@@ -85,7 +85,7 @@ v1.0.2 [#v1.0.2
  - Chg: Added 'msg()' to `SrcCodeErr` so Err msgs can be reported.
  - Bug: The wrong compilation line could be reported in 'PlasticErr.toStr()'
 
-v1.0.0 [#v1.0.0
+v1.0.0 [#v1.0.0]
 ======
  - New: Initial release.
  - Chg: 'Plastic' was jail breaked from [IoC]`pod:afIoc` and updated for use by [efan]`pod:afEfan`
