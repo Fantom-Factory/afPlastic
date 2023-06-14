@@ -4,7 +4,7 @@ internal class TestPlasticClass : PlasticTest {
 	
 	Void testNonConstProxyCannotOverrideConst() {
 		plasticModel := PlasticClassModel("TestImpl", false)
-		verifyPlasticErrMsg(PlasticMsgs.nonConstTypeCannotSubclassConstType("TestImpl", T_PlasticService01#)) |->| {
+		verifyPlasticErrMsg("Non-const type TestImpl can not subclass const type afPlastic::T_PlasticService01") |->| {
 			plasticModel.extend(T_PlasticService01#)
 		}
 	}
@@ -21,7 +21,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustBelongToSuperType() {
 		plasticModel := PlasticClassModel("TestImpl", true)
 		plasticModel.extend(T_PlasticService01#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(Int#abs, [Obj#, T_PlasticService01#])) |->| {
+		verifyPlasticErrMsg("Method sys::Int.abs does not belong to super types sys::Obj, afPlastic::T_PlasticService01") |->| {
 			plasticModel.overrideMethod(Int#abs, "wotever")
 		}
 	}
@@ -35,7 +35,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustHaveProtectedScope() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService05#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideMethodHasWrongScope(T_PlasticService05#oops)) |->| {
+		verifyPlasticErrMsg("Method afPlastic::T_PlasticService05.oops must have 'public' or 'protected' scope") |->| {
 			plasticModel.overrideMethod(T_PlasticService05#oops, "wotever")
 		}
 	}
@@ -43,7 +43,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testOverrideMethodsMustBeVirtual() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService06#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsMustBeVirtual(T_PlasticService06#oops)) |->| {
+		verifyPlasticErrMsg("Method afPlastic::T_PlasticService06.oops must be virtual (or abstract)") |->| {
 			plasticModel.overrideMethod(T_PlasticService06#oops, "wotever")
 		}
 	}
@@ -51,7 +51,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testCanNotGuessDefaultParamValue1() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService14#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService14#obj, T_PlasticService14#obj.params.first)) |->| {
+		verifyPlasticErrMsg("Can not determine a default parameter value for param 'obj' of : afPlastic::T_PlasticService14.obj") |->| {
 			plasticModel.overrideMethod(T_PlasticService14#obj, "wotever")			
 		}
 	}
@@ -59,7 +59,7 @@ internal class TestPlasticClass : PlasticTest {
 	Void testCanNotGuessDefaultParamValue2() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService15#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(T_PlasticService15#obj, T_PlasticService15#obj.params.first)) |->| {
+		verifyPlasticErrMsg("Can not determine a default parameter value for param 'obj' of : afPlastic::T_PlasticService15.obj") |->| {
 			plasticModel.overrideMethod(T_PlasticService15#obj, "wotever")
 		}
 	}

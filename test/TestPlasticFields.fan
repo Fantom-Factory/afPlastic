@@ -20,7 +20,7 @@ internal class TestPlasticFields : PlasticTest {
 	Void testOverrideFieldsMustBelongToSuperType() {
 		plasticModel := PlasticClassModel("TestImpl", true)
 		plasticModel.extend(T_PlasticService01#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(Int#minVal, [Obj#, T_PlasticService01#])) |->| {
+		verifyPlasticErrMsg("Field sys::Int.minVal does not belong to super type sys::Obj, afPlastic::T_PlasticService01") |->| {
 			plasticModel.overrideField(Int#minVal, "wotever")
 		}
 	}
@@ -28,7 +28,7 @@ internal class TestPlasticFields : PlasticTest {
 	Void testOverrideFieldsMustHaveProtectedScope() {
 		plasticModel := PlasticClassModel("TestImpl", false)
 		plasticModel.extend(T_PlasticService07#)
-		verifyPlasticErrMsg(PlasticMsgs.overrideFieldHasWrongScope(T_PlasticService07#oops)) |->| {
+		verifyPlasticErrMsg("Field afPlastic::T_PlasticService07.oops must have 'public' or 'protected' scope") |->| {
 			plasticModel.overrideField(T_PlasticService07#oops, "wotever")
 		}
 	}

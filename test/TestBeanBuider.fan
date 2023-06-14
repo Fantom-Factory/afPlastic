@@ -26,7 +26,7 @@ internal class TestBeanBuilder : Test {
 		verifyEq(obj.ctor, "make3")
 		verifyEq(obj.value, "m3")
 
-		verifyErrMsg(Err#, "Found more than 1 ctor on afBeanUtils::T_Ctors [make4, make5] that match argument types - [Int, Str]") {
+		verifyErrMsg(Err#, "Found more than 1 ctor on afPlastic::T_Ctors [make4, make5] that match argument types - [Int, Str]") {
 			build(T_Ctors#, [T_Ctors#value:"m4"], [1, "2"])
 		}
 
@@ -73,7 +73,7 @@ internal class TestBeanBuilder : Test {
 		verifyEq(obj.ctor, "make3")
 		verifyEq(obj.value, "m3")
 
-		verifyErrMsg(Err#, "Found more than 1 ctor on afBeanUtils::T_Ctors [make4, make5] that match argument types - [Int, Str]") {
+		verifyErrMsg(Err#, "Found more than 1 ctor on afPlastic::T_Ctors [make4, make5] that match argument types - [Int, Str]") {
 			build(T_Ctors#, [T_Ctors#value:"m4"], [1, "2"])
 		}
 
@@ -81,7 +81,7 @@ internal class TestBeanBuilder : Test {
 		verifyEq(obj.ctor, "make5")
 		verifyEq(obj.value, "m5")
 
-		verifyErrMsg(Err#, "Could not find a ctor on afBeanUtils::T_Ctors to match argument types - [Uri]") {
+		verifyErrMsg(Err#, "Could not find a ctor on afPlastic::T_Ctors to match argument types - [Uri]") {
 			build(T_Ctors#, [T_Ctors#value:"m4"], [`2`])
 		}
 

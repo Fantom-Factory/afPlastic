@@ -84,9 +84,9 @@ class PlasticClassModel {
 //		if (isConst && !type.isConst)
 //			throw PlasticErr(PlasticMsgs.constTypeCannotSubclassNonConstType(className, type))
 		if (!isConst && type.isConst)
-			throw PlasticErr(PlasticMsgs.nonConstTypeCannotSubclassConstType(className, type))
+			throw PlasticErr("Non-const type ${className} can not subclass const type ${type.qname}")
 		if (type.isInternal)
-			throw PlasticErr(PlasticMsgs.superTypesMustBePublic(className, type))
+			throw PlasticErr("Super types must be 'public' or 'protected' scope - class ${className} : ${type.qname}")
 		
 		if (type.isClass) {
 			if (superClass != Obj# && superClass != type)
@@ -136,9 +136,9 @@ class PlasticClassModel {
 	** 'getBody' and 'setBody' are code blocks to be used in the 'get' and 'set' accessors.
 	PlasticFieldModel overrideField(Field field, Str? getBody := null, Str? setBody := null) {
 		if (!extends.any { it.fits(field.parent) })
-			throw PlasticErr(PlasticMsgs.overrideFieldDoesNotBelongToSuperType(field, extends))
+			throw PlasticErr("Field ${field.qname} does not belong to super type " + extends.map { it.qname }.join(", "))
 		if (field.isPrivate || field.isInternal)
-			throw PlasticErr(PlasticMsgs.overrideFieldHasWrongScope(field))
+			throw PlasticErr("Field ${field.qname} must have 'public' or 'protected' scope")
 		
 		fieldModel := PlasticFieldModel(true, PlasticVisibility.visPublic, field.isConst, field.type, field.name, getBody, setBody)
 		fields.add(fieldModel)
@@ -164,18 +164,18 @@ class PlasticClassModel {
 	** 'body' does not include {braces}
 	PlasticMethodModel overrideMethod(Method method, Str body) {
 		if (!extends.any { it.fits(method.parent) })
-			throw PlasticErr(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(method, extends))
+			throw PlasticErr(overrideMethodDoesNotBelongToSuperType(method, extends))
 		if (method.isPrivate || method.isInternal)
-			throw PlasticErr(PlasticMsgs.overrideMethodHasWrongScope(method))
+			throw PlasticErr("Method ${method.qname} must have 'public' or 'protected' scope")
 		if (!method.isVirtual)
-			throw PlasticErr(PlasticMsgs.overrideMethodsMustBeVirtual(method))
+			throw PlasticErr("Method ${method.qname} must be virtual (or abstract)")
 		
 		params := method.params.map |param->Str| {
 			pSig := "${param.type.signature} ${param.name}"
 			if (param.hasDefault) {
 				def := guessDefault(method, param)
 				if (def == null)
-					throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(method, param))
+					throw PlasticErr("Can not determine a default parameter value for param '${param.name}' of : ${method.qname}")
 				pSig += " := ${def}"
 			}
 			return pSig
@@ -198,22 +198,22 @@ class PlasticClassModel {
 		ctors.add(ctorModel)
 		return ctorModel
 	}
-
+	
 	** Override a ctor
 	** The given ctor method must exist in a super class / mixin.
 	** 'body' does not include {braces}
 	PlasticCtorModel overrideCtor(Method ctor, Str body) {
 		if (!extends.any { it.fits(ctor.parent) })
-			throw PlasticErr(PlasticMsgs.overrideMethodDoesNotBelongToSuperType(ctor, extends))
+			throw PlasticErr(overrideMethodDoesNotBelongToSuperType(ctor, extends))
 		if (ctor.isPrivate || ctor.isInternal)
-			throw PlasticErr(PlasticMsgs.overrideMethodHasWrongScope(ctor))
+			throw PlasticErr("Method ${ctor.qname} must have 'public' or 'protected' scope")
 		
 		params := ctor.params.map |param->Str| {
 			pSig := "${param.type.signature} ${param.name}"
 			if (param.hasDefault) {
 				def := guessDefault(ctor, param)
 				if (def == null)
-					throw PlasticErr(PlasticMsgs.overrideMethodsCanNotHaveDefaultValues(ctor, param))
+					throw PlasticErr("Can not determine a default parameter value for param '${param.name}' of : ${ctor.qname}")
 				pSig += " := ${def}"
 			}
 			return pSig
@@ -303,5 +303,9 @@ class PlasticClassModel {
 			return "${param.type.qname}()"
 		
 		return null
+	}
+	
+	private static Str overrideMethodDoesNotBelongToSuperType(Method method, Type[] superTypes) {
+		"Method ${method.qname} does not belong to super types " + superTypes.map { it.qname }.join(", ")
 	}
 }

@@ -2,7 +2,7 @@
 internal class TestPlasticUsingModel : PlasticTest {
 
 	Void testUsingErr() {
-		verifyPlasticErrMsg(PlasticMsgs.usingStrMustNotStartWithUsing("using dude")) |->| {
+		verifyPlasticErrMsg("UsingStr 'using dude' must not start with 'using'") |->| {
 			plasticModel := PlasticUsingModel("using dude")
 		}
 	}

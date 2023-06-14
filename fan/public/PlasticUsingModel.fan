@@ -16,7 +16,7 @@ class PlasticUsingModel {
 
 	new makeFromStr(Str usingStr) {
 		if (usingStr.trim.lower.startsWith("using "))
-			throw PlasticErr(PlasticMsgs.usingStrMustNotStartWithUsing(usingStr))
+			throw PlasticErr("UsingStr '${usingStr}' must not start with 'using'")
 		this.usingStr = usingStr
 	}
 	
