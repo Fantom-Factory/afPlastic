@@ -1,4 +1,5 @@
-using concurrent
+using concurrent::AtomicInt
+using concurrent::AtomicRef
 using compiler
 
 ** (Service) - 

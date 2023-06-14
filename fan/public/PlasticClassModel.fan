@@ -1,5 +1,3 @@
-using afBeanUtils::BeanBuilder
-using afBeanUtils::ReflectUtils
 
 ** Models a Fantom class.
 ** 

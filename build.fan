@@ -20,7 +20,7 @@ class Build : BuildPod {
 			"ext.depends"	: "afBeanUtils",
 			"skyarc.icons"	: "true",
 		]
-		
+	
 		index	= [
 			"skyarc.ext"	: "afPlastic"
 		]
@@ -30,12 +30,9 @@ class Build : BuildPod {
 			"concurrent   1.0.68 - 1.0",	// for AtomicInt to keep a JVM unique pod name 
 			"compiler     1.0.68 - 1.0", 
 			"compilerJava 1.0.68 - 1.0",
-			
-			// ---- Core ----
-			"afBeanUtils  1.0.10  - 1.0"
 		]
 
-		srcDirs = [`fan/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
+		srcDirs = [`fan/`, `fan/beanUtils/`, `fan/internal/`, `fan/public/`, `fan/public/advanced/`, `test/`]
 		resDirs = [`doc/`, `svg/`]
 	}
 }
